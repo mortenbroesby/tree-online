@@ -2,7 +2,7 @@ import {
   UPDATE_FANCY,
   UPDATE_TRAILING_SLASH,
   UPDATE_ROOT_DOT,
-  UPDATE_USE_FOLDER_ICON,
+  UPDATE_USE_ICON,
 } from './types';
 
 export function updateFancy(newValue: boolean) {
@@ -12,9 +12,9 @@ export function updateFancy(newValue: boolean) {
   };
 }
 
-export function updateUseFolderIcon(newValue: boolean) {
+export function updateUseIcon(newValue: boolean) {
   return {
-    type: UPDATE_USE_FOLDER_ICON,
+    type: UPDATE_USE_ICON,
     newValue,
   };
 }

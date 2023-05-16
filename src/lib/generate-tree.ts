@@ -31,7 +31,7 @@ interface GenerateTreeOptions {
   /**
    * Whether or not to use a folder icon
    */
-  useFolderIcon?: boolean;
+  useIcon?: boolean;
 }
 
 /** The default options if no options are provided */
@@ -39,7 +39,7 @@ const defaultOptions: GenerateTreeOptions = {
   charset: 'utf-8',
   trailingDirSlash: false,
   rootDot: true,
-  useFolderIcon: false,
+  useIcon: false,
 };
 
 /**
@@ -120,7 +120,7 @@ const getName = (
   const shouldAddTralingSlash =
     trailingSlashEnabled && itemHasChildren && itemNeedsASlash;
 
-  const useFolderIcon = options?.useFolderIcon ?? false;
+  const useIcon = options?.useIcon ?? false;
 
   // Optionally append a trailing slash
   nameChunks = nameChunks.map(chunk => {
@@ -129,7 +129,7 @@ const getName = (
     const withCommentsAdjusted = adjustComments({
       value: withMarkdownLinks,
       addSlash: shouldAddTralingSlash,
-      useFolderIcon,
+      useIcon,
     });
 
     return withCommentsAdjusted;
@@ -157,16 +157,16 @@ function convertHTMLLinkToMarkdown(s: string): string {
 function adjustComments({
   value,
   addSlash = false,
-  useFolderIcon = false,
+  useIcon = false,
 }: {
   value: string;
   addSlash: boolean;
-  useFolderIcon: boolean;
+  useIcon: boolean;
 }): string {
   // Find the index of ' # ' in the string
   const doubleSlashIndex = value.indexOf(' # ');
 
-  const slashOrFolder = useFolderIcon ? ' 📁' : '/';
+  const slashOrFolder = useIcon ? ' 📁' : '/';
 
   // If ' # ' is not found, return the original string,
   // potentially adding a slash at the end depending on addSlash

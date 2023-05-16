@@ -1,12 +1,12 @@
 export interface OptionsState {
   fancy: boolean;
-  useFolderIcon: boolean;
+  useIcon: boolean;
   trailingSlash: boolean;
   rootDot: boolean;
 }
 
 export const UPDATE_FANCY = 'UPDATE_FANCY';
-export const UPDATE_USE_FOLDER_ICON = 'UPDATE_USE_FOLDER_ICON';
+export const UPDATE_USE_ICON = 'UPDATE_USE_ICON';
 export const UPDATE_TRAILING_SLASH = 'UPDATE_TRAILING_SLASH';
 export const UPDATE_ROOT_DOT = 'UPDATE_ROOT_DOT';
 
@@ -15,8 +15,8 @@ interface UpdateFancyAction {
   newValue: boolean;
 }
 
-interface UpdateUseFolderIconAction {
-  type: typeof UPDATE_USE_FOLDER_ICON;
+interface UpdateUseIconAction {
+  type: typeof UPDATE_USE_ICON;
   newValue: boolean;
 }
 
@@ -32,6 +32,6 @@ interface UpdateRootDotAction {
 
 export type OptionActionTypes =
   | UpdateFancyAction
-  | UpdateUseFolderIconAction
+  | UpdateUseIconAction
   | UpdateTrailingSlashAction
   | UpdateRootDotAction;

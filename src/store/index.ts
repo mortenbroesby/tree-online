@@ -31,7 +31,7 @@ export const getTree = createSelector(
       charset: options.fancy ? 'utf-8' : 'ascii',
       trailingDirSlash: options.trailingSlash,
       rootDot: options.rootDot,
-      useFolderIcon: options.useFolderIcon,
+      useIcon: options.useIcon,
     });
 
     return generatedTree;
