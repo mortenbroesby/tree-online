@@ -18,7 +18,6 @@ describe('generateTree', () => {
 │   │   ├── main.js
 │   │   └── main.css
 │   ├── .prettierrc.json
-│   ├── .gitlab-ci.yml
 │   └── README.md
 └── empty dir
 
@@ -42,7 +41,6 @@ describe('generateTree', () => {
 |   |   |-- main.js
 |   |   \`-- main.css
 |   |-- .prettierrc.json
-|   |-- .gitlab-ci.yml
 |   \`-- README.md
 \`-- empty dir
 

@@ -31,10 +31,10 @@ export class App extends React.Component<void, AppState> {
       >
         <div className="flex-grow-0 flex-shrink-0 d-flex align-items-center mb-2">
           <div className="flex-even d-flex align-items-center flex-column flex-sm-row">
-            <h1 className="mr-4 mb-0">tree.nathanfriend.io</h1>
+            <h1 className="mr-4 mb-0">tree-online</h1>
             <a
               className="my-2 my-sm-0 hide-offline"
-              href="https://gitlab.com/nfriend/tree-online#what-is-this"
+              href="https://github.com/mortenbroesby/tree-online#what-is-this"
               target="_blank"
               rel="noopener noreferrer"
             >

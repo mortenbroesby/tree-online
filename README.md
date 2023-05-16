@@ -33,7 +33,7 @@ my-project
 
 ### Why would I want this?
 
-It's common to explain or discuss a file system structure on text-based sites like [StackOverflow](https://stackoverflow.com/), [GitLab](https://gitlab.com), or [GitHub](https://github.com/). But generating a nice-looking diagram like the one above is painful by hand.
+It's common to explain or discuss a file system structure on text-based sites like [StackOverflow](https://stackoverflow.com/) or [GitHub](https://github.com/). But generating a nice-looking diagram like the one above is painful by hand.
 
 ## About the project
 
@@ -46,8 +46,6 @@ Some other technologies this project uses:
 - [JSONCrush](https://github.com/KilledByAPixel/JSONCrush) for efficiently saving the application's state in the URL
 - [Bootstrap](https://getbootstrap.com/). In particular, its [responsive flex utilities](https://getbootstrap.com/docs/4.4/utilities/flex/)
 - [Moment.js](https://momentjs.com/) and a few functions from [Lodash](https://lodash.com/)
-- [GitLab CI/CD](https://docs.gitlab.com/ee/ci/) and [GitLab Pages](https://about.gitlab.com/product/pages/) for continuous integration and deployment
-  - If you're interested in the mechanics, check out this project's [.gitlab-ci.yml](.gitlab-ci.yml)
 - [Jest](https://jestjs.io/), [TSLint](https://palantir.github.io/tslint/), and [Prettier](https://prettier.io/) for code quality
 - [Renovate Bot](https://renovate.whitesourcesoftware.com/) for automatically keeping dependencies up-to-date
 
@@ -82,6 +80,3 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Deploying
-
-This project is deployed automatically using [GitLab CI/CD](https://docs.gitlab.com/ee/ci/) to [GitLab Pages](https://about.gitlab.com/product/pages/), so simply `git push` on `master` to trigger a new deployment. For more info, see this project's [.gitlab-ci.yml](.gitlab-ci.yml).

@@ -93,14 +93,6 @@ describe('parse-input', () => {
     };
     myApp.children.push(prettierRcJson);
 
-    const gitlabCiYml: FileStructure = {
-      name: '.gitlab-ci.yml',
-      children: [],
-      indentCount: 2,
-      parent: myApp,
-    };
-    myApp.children.push(gitlabCiYml);
-
     const readmeMd: FileStructure = {
       name: 'README.md',
       children: [],
@@ -136,7 +128,6 @@ describe('splitInput', () => {
       { name: 'main.js', children: [], indentCount: 4, parent: null },
       { name: 'main.css', children: [], indentCount: 4, parent: null },
       { name: '.prettierrc.json', children: [], indentCount: 2, parent: null },
-      { name: '.gitlab-ci.yml', children: [], indentCount: 2, parent: null },
       { name: 'README.md', children: [], indentCount: 2, parent: null },
       { name: 'empty dir', children: [], indentCount: 0, parent: null },
     ];

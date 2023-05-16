@@ -13,7 +13,6 @@ export const mockInput = [
   '',
   '  ',
   '  .prettierrc.json',
-  '  .gitlab-ci.yml',
   '  README.md',
   'empty dir',
 ].join('\n');
