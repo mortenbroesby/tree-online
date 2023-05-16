@@ -31,10 +31,7 @@ export class DeploymentStatus extends React.Component<
       this.state.deploymentStatus = (
         <span>
           Last deployed the {deployedTimestamp} ({deployedAgo}) for commit{' '}
-          <a className="hide-offline" href={commitLink}>
-            {commitSha}
-          </a>
-          <b className="hide-online">{commitSha}</b>
+          <a href={commitLink}>{commitSha}</a>
         </span>
       );
     } else {
