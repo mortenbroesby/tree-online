@@ -116,8 +116,10 @@ const getName = (
 
   // Optionally append a trailing slash
   nameChunks = nameChunks.map(chunk => {
+    const withMarkdownLinks = convertHTMLLinkToMarkdown(chunk);
+
     const withCommentsAdjusted = adjustComments({
-      value: chunk,
+      value: withMarkdownLinks,
       addSlash: shouldAddTralingSlash,
     });
 
@@ -138,15 +140,18 @@ const isLastChild = (structure: FileStructure): boolean => {
   );
 };
 
-interface ProcessStringParams {
-  value: string;
-  addSlash: boolean;
+function convertHTMLLinkToMarkdown(s: string): string {
+  const urlRegex = /(^|\s)(https?:\/\/[^\s]+)/g;
+  return s.replace(urlRegex, '$1[Link]($2)');
 }
 
 function adjustComments({
   value,
   addSlash = false,
-}: ProcessStringParams): string {
+}: {
+  value: string;
+  addSlash: boolean;
+}): string {
   // Find the index of ' # ' in the string
   const doubleSlashIndex = value.indexOf(' # ');
 

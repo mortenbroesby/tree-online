@@ -69,20 +69,14 @@ export const splitInput = (input: string): FileStructure[] => {
       );
     }
 
-    const targetName = line.replace(matchResult[1], '');
-    const nameWithLink = convertHTMLLinkToMarkdown(targetName);
+    const name = line.replace(matchResult[1], '');
     const indentCount = matchResult[2].length;
 
     return {
-      name: nameWithLink,
+      name,
       children: [],
       indentCount,
       parent: null,
     };
   });
 };
-
-function convertHTMLLinkToMarkdown(s: string): string {
-  const urlRegex = /(^|\s)(https?:\/\/[^\s]+)/g;
-  return s.replace(urlRegex, '$1[Link]($2)');
-}
