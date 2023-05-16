@@ -113,19 +113,21 @@ const getName = (
   structure: FileStructure,
   options: GenerateTreeOptions,
 ): string => {
-  const nameChunks = [structure.name];
+  let nameChunks = [structure.name];
+
+  const trailingSlashEnabled = options.trailingDirSlash ?? false;
+  const itemHasChildren = structure.children.length > 0;
+  const itemNeedsASlash = !/\/\s*$/.test(structure.name);
+  const shouldAddTralingSlash =
+    trailingSlashEnabled && itemHasChildren && itemNeedsASlash;
 
   // Optionally append a trailing slash
-  if (
-    // if the trailing slash option is enabled
-    options.trailingDirSlash &&
-    // and if the item has at least one child
-    structure.children.length > 0 &&
-    // and if the item doesn't already have a trailing slash
-    !/\/\s*$/.test(structure.name)
-  ) {
-    nameChunks.push('/');
-  }
+  nameChunks = nameChunks.map(chunk => {
+    return processString({
+      value: chunk,
+      addSlash: shouldAddTralingSlash,
+    });
+  });
 
   // Optionally prefix the name with its full path
   if (options.fullPath && structure.parent && structure.parent) {
@@ -150,3 +152,29 @@ const isLastChild = (structure: FileStructure): boolean => {
     structure.parent && last(structure.parent.children) === structure,
   );
 };
+
+interface ProcessStringParams {
+  value: string;
+  addSlash: boolean;
+}
+
+function processString({
+  value,
+  addSlash = false,
+}: ProcessStringParams): string {
+  // Find the index of ' # ' in the string
+  const doubleSlashIndex = value.indexOf(' # ');
+
+  // If ' # ' is not found, return the original string,
+  // potentially adding a slash at the end depending on addSlash
+  if (doubleSlashIndex === -1) {
+    return addSlash ? `${value}/` : value;
+  }
+
+  // If ' # ' is found, return a string where ' # ' is potentially
+  // preceded by a slash depending on addSlash
+  const beforeHash = value.substring(0, doubleSlashIndex);
+  const afterHash = value.substring(doubleSlashIndex);
+
+  return addSlash ? `${beforeHash}/${afterHash}` : `${beforeHash}${afterHash}`;
+}
