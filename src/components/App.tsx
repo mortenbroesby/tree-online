@@ -25,22 +25,22 @@ const App = () => {
         </TreeDiv>
       </FlexContainer>
 
-      <div className="flex-grow-0 flex-shrink-0 d-flex align-items-center align-items-sm-start mt-2 flex-column flex-md-row">
-        <p className="text-muted text-center text-sm-left mb-2 pr-0 pr-sm-4 mr-auto">
+      <Footer>
+        <Deployment>
           <DeploymentStatus />
-        </p>
+        </Deployment>
 
-        <div className="d-flex flex-column flex-sm-row align-items-center align-items-sm-start mb-2 mt-md-0">
-          <a href="https://github.com/mortenbroesby/tree-online">
-            View the source on Github
-          </a>
-        </div>
-      </div>
+        <Link href="https://github.com/mortenbroesby/tree-online">
+          View the source on Github
+        </Link>
+      </Footer>
 
       <Menu />
     </AppContainer>
   );
 };
+
+const foldSize = 900;
 
 const AppContainer = styled.div`
   display: flex;
@@ -68,8 +68,47 @@ const SubContainer = styled.div`
   flex-wrap: wrap;
   margin-bottom: 4px;
 
-  @media (min-width: 576px) {
+  @media (min-width: ${foldSize}px) {
     flex-direction: row;
+  }
+`;
+
+const Footer = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  flex-direction: column;
+
+  @media (min-width: ${foldSize}px) {
+    flex-direction: row;
+    text-align: center;
+  }
+`;
+
+const Deployment = styled.p`
+  margin-bottom: 2px;
+  padding-right: 0;
+  margin-right: unset;
+  color: #95a5a6 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: ${foldSize}px) {
+    margin-right: auto;
+  }
+`;
+
+const Link = styled.a`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2px;
+
+  @media (min-width: ${foldSize}px) {
+    margin-top: 0;
   }
 `;
 
@@ -78,7 +117,7 @@ const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 900px) {
+  @media (min-width: ${foldSize}px) {
     flex-direction: row;
   }
 `;
@@ -87,7 +126,7 @@ const InputDiv = styled.div`
   flex: 1;
   display: flex;
 
-  @media (min-width: 900px) {
+  @media (min-width: ${foldSize}px) {
     max-width: 50%;
   }
 `;
@@ -97,7 +136,7 @@ const TreeDiv = styled.div`
   display: flex;
   padding-left: 0;
 
-  @media (min-width: 900px) {
+  @media (min-width: ${foldSize}px) {
     padding-left: 12px;
     max-width: 50%;
   }
