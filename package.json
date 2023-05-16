@@ -1,8 +1,7 @@
 {
-  "name": "@nathanfriend/tree-online",
-  "version": "0.1.0",
+  "name": "@mortenbroesby/tree-online",
+  "version": "0.1.1",
   "description": "An online tree-like utility for generating ASCII folder structure diagrams",
-  "repository": "git@gitlab.com:nfriend/tree-online.git",
   "author": "Nathan Friend <nathan@gitlab.com>",
   "license": "MIT",
   "private": true,

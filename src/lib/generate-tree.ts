@@ -51,17 +51,23 @@ const defaultOptions: GenerateTreeOptions = {
 export const generateTree = (
   structure: FileStructure,
   options?: GenerateTreeOptions,
-): string =>
-  flattenDeep([
-    getAsciiLine(structure, defaultsDeep({}, options, defaultOptions)),
-    structure.children.map(c => generateTree(c, options)) as RecursiveArray<
-      string
-    >,
-  ])
-    // Remove null entries. Should only occur for the very first node
-    // when `options.rootDot === false`
-    .filter(line => line != null)
-    .join('\n');
+): string => {
+  const treeOptions = defaultsDeep({}, options, defaultOptions);
+
+  const asciiLine = getAsciiLine(structure, treeOptions);
+
+  const asciiChildren = structure.children.map(child => {
+    return generateTree(child, options);
+  }) as RecursiveArray<string>;
+
+  const arrayToFlatten = [asciiLine, asciiChildren];
+  const flattenedTree = flattenDeep(arrayToFlatten);
+
+  // Remove null entries. Should only occur for the very first node
+  // when `options.rootDot === false`
+  const cleanedTree = flattenedTree.filter(line => line != null).join('\n');
+  return cleanedTree;
+};
 
 /**
  * Returns a line of ASCII that represents
@@ -86,6 +92,7 @@ const getAsciiLine = (
   ];
 
   let current = structure.parent;
+
   while (current && current.parent) {
     chunks.unshift(isLastChild(current) ? lines.EMPTY : lines.DIRECTORY);
     current = current.parent;
@@ -122,12 +129,12 @@ const getName = (
 
   // Optionally prefix the name with its full path
   if (options.fullPath && structure.parent && structure.parent) {
-    nameChunks.unshift(
-      getName(
-        structure.parent,
-        defaultsDeep({}, { trailingDirSlash: true }, options),
-      ),
+    const targetName = getName(
+      structure.parent,
+      defaultsDeep({}, { trailingDirSlash: true }, options),
     );
+
+    nameChunks.unshift(targetName);
   }
 
   return nameChunks.join('');
@@ -138,5 +145,8 @@ const getName = (
  * is the last child of its parent
  * @param structure The file or folder to test
  */
-const isLastChild = (structure: FileStructure): boolean =>
-  Boolean(structure.parent && last(structure.parent.children) === structure);
+const isLastChild = (structure: FileStructure): boolean => {
+  return Boolean(
+    structure.parent && last(structure.parent.children) === structure,
+  );
+};

@@ -32,16 +32,17 @@ export const parseInput = (input: string): FileStructure => {
   };
 
   const path = [root];
-  for (const s of structures) {
-    while (last(path)!.indentCount >= s.indentCount) {
+
+  for (const structure of structures) {
+    while (last(path)!.indentCount >= structure.indentCount) {
       path.pop();
     }
 
     const parent = last(path) as FileStructure;
-    parent.children.push(s);
-    s.parent = parent;
+    parent.children.push(structure);
+    structure.parent = parent;
 
-    path.push(s);
+    path.push(structure);
   }
 
   return root;
@@ -57,25 +58,31 @@ export const splitInput = (input: string): FileStructure[] => {
   let lines = input.match(newlineSplitterRegex) || [];
 
   // filter out empty lines
-  lines = lines.filter(l => !onlyWhitespaceRegex.test(l));
+  lines = lines.filter(line => !onlyWhitespaceRegex.test(line));
 
-  return lines.map(l => {
-    const matchResult = leadingWhitespaceAndBulletRegex.exec(l);
+  return lines.map(line => {
+    const matchResult = leadingWhitespaceAndBulletRegex.exec(line);
 
     if (!matchResult) {
       throw new Error(
-        `Unable to execute leadingWhitespaceAndBulletRegex against string: "${l}"`,
+        `Unable to execute leadingWhitespaceAndBulletRegex against string: "${line}"`,
       );
     }
 
-    const name = l.replace(matchResult[1], '');
+    const targetName = line.replace(matchResult[1], '');
+    const nameWithLink = convertHTMLLinkToMarkdown(targetName);
     const indentCount = matchResult[2].length;
 
     return {
-      name,
+      name: nameWithLink,
       children: [],
       indentCount,
       parent: null,
     };
   });
 };
+
+function convertHTMLLinkToMarkdown(s: string): string {
+  const urlRegex = /(^|\s)(https?:\/\/[^\s]+)/g;
+  return s.replace(urlRegex, '$1[Link]($2)');
+}

@@ -19,23 +19,30 @@ export interface AppState {
 }
 
 const getSource = (state: AppState) => state.source.source;
+
 const getOptions = (state: AppState) => state.options;
 
 export const getTree = createSelector(
   [getSource, getOptions],
-  (source, options) =>
-    generateTree(parseInput(source), {
+  (source, options) => {
+    const parsedInput = parseInput(source);
+
+    const generatedTree = generateTree(parsedInput, {
       charset: options.fancy ? 'utf-8' : 'ascii',
       fullPath: options.fullPath,
       trailingDirSlash: options.trailingSlash,
       rootDot: options.rootDot,
-    }),
+    });
+
+    return generatedTree;
+  },
 );
 
 export const configureStore = () => {
   const store = createStore(rootReducer);
 
   let currentState: AppState;
+
   function onStateUpdated() {
     const previousState = currentState;
     currentState = store.getState();
