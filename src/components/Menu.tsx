@@ -4,14 +4,16 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { AppState, getTree } from '../store';
+import { useDisclosure } from '@mantine/hooks';
+import { Burger } from '@mantine/core';
 import {
   Button,
   Checkbox,
   Text,
   Group,
   Stack,
-  Flex,
-  Accordion,
+  Modal,
+  Divider,
 } from '@mantine/core';
 import styled from 'styled-components';
 import {
@@ -20,10 +22,11 @@ import {
   updateTrailingSlash,
   updateRootDot,
 } from '../store/options/actions';
+import ModalButton from './ModalButton';
 
-const COPY = 'Copy';
-const SHARE = 'Share';
-const URL_COPIED = 'URL copied!';
+const COPY = 'Copy to clipboard';
+const SHARE = 'Share URL';
+
 const BUTTON_TEXT_TIMEOUT = 1200;
 
 const Menu: React.FC<{
@@ -40,13 +43,15 @@ const Menu: React.FC<{
   const [copyButtonText, setCopyButtonText] = useState(COPY);
   const [shareButtonText, setShareButtonText] = useState(SHARE);
 
+  const [opened, { open, close }] = useDisclosure(false);
+
   const onCopy = useCallback(() => {
-    setCopyButtonText(URL_COPIED);
+    setCopyButtonText('Copied to clipboard!');
     setTimeout(() => setCopyButtonText(COPY), BUTTON_TEXT_TIMEOUT);
   }, []);
 
   const onShare = useCallback(() => {
-    setShareButtonText(URL_COPIED);
+    setShareButtonText('URL copied!');
     setTimeout(() => setShareButtonText(SHARE), BUTTON_TEXT_TIMEOUT);
   }, []);
 
@@ -79,53 +84,79 @@ const Menu: React.FC<{
   );
 
   return (
-    <BottomRightElement>
-      <MenuContainer>
-        <Flex direction="column" align="flex-end">
-          <Group spacing="sm" role="group" aria-label="Copy and share buttons">
-            <CopyToClipboard text={props.tree} onCopy={onCopy}>
-              <Button>{copyButtonText}</Button>
-            </CopyToClipboard>
-
-            <CopyToClipboard text={window.location.href} onCopy={onShare}>
-              <Button variant="light">{shareButtonText}</Button>
-            </CopyToClipboard>
-          </Group>
-
-          <OptionsContainer>
+    <>
+      <Modal
+        opened={opened}
+        onClose={close}
+        withCloseButton={false}
+        centered
+        size="auto"
+      >
+        <MenuContainer>
+          <Group align="center" spacing="xl">
             <Stack spacing="sm" align="center">
               <Text weight="bold" underline>
-                Options
+                Formatting
               </Text>
               <Stack spacing="sm" align="stretch">
                 <Checkbox
                   checked={props.fancy}
                   onChange={onFancyChanged}
-                  label="Fancy format"
+                  label="Use fancy format"
                 />
                 <Checkbox
                   checked={props.rootDot}
                   onChange={onRootDotChanged}
-                  label="Root has dot"
+                  label="Prefix root with dot"
                 />
                 <Checkbox
                   checked={props.trailingSlash}
                   onChange={onTrailingSlashChanged}
-                  label="Trailing slash"
+                  label="Use trailing slash"
                 />
                 {props.trailingSlash && (
                   <Checkbox
                     checked={props.useIcon}
                     onChange={onIconChanged}
-                    label="Use icons"
+                    label="Use folder icons"
                   />
                 )}
               </Stack>
             </Stack>
-          </OptionsContainer>
-        </Flex>
-      </MenuContainer>
-    </BottomRightElement>
+
+            <Divider orientation="vertical" variant="dashed" />
+
+            <Stack>
+              <Stack
+                spacing="sm"
+                role="group"
+                aria-label="Copy and share buttons"
+              >
+                <CopyToClipboard text={props.tree} onCopy={onCopy}>
+                  <Button>{copyButtonText}</Button>
+                </CopyToClipboard>
+
+                <CopyToClipboard text={window.location.href} onCopy={onShare}>
+                  <Button variant="light">{shareButtonText}</Button>
+                </CopyToClipboard>
+              </Stack>
+
+              <ModalButton />
+            </Stack>
+          </Group>
+        </MenuContainer>
+      </Modal>
+
+      <TopRightElement>
+        <BurgerContainer>
+          <Burger
+            opened={opened}
+            onClick={open}
+            aria-label={opened ? 'Close navigation' : 'Open navigation'}
+          />
+        </BurgerContainer>
+      </TopRightElement>
+    </>
   );
 };
 
@@ -133,16 +164,14 @@ const MenuContainer = styled.div`
   padding: 16px;
   background-color: white;
   min-width: 200px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
 `;
 
-const OptionsContainer = styled.div`
-  padding: 16px;
+const BurgerContainer = styled.div`
+  padding: 12px;
 `;
 
-const BottomRightElement = styled.div`
+const TopRightElement = styled.div`
   position: absolute;
   top: 0;
   right: 0;

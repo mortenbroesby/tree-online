@@ -1,43 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { DeploymentStatus } from './DeploymentStatus';
 import Input from './Input';
 import Menu from './Menu';
 import Tree from './Tree';
-import ModalButton from './ModalButton';
 import { Title } from '@mantine/core';
 import styled from 'styled-components';
 
 const App = () => {
-  const [networkStatus, setNetworkStatus] = useState(
-    window.navigator.onLine ? 'online' : 'offline',
-  );
-
-  useEffect(() => {
-    const updateOnlineStatus = () =>
-      setNetworkStatus(window.navigator.onLine ? 'online' : 'offline');
-
-    window.addEventListener('offline', updateOnlineStatus);
-    window.addEventListener('online', updateOnlineStatus);
-
-    return () => {
-      window.removeEventListener('offline', updateOnlineStatus);
-      window.removeEventListener('online', updateOnlineStatus);
-    };
-  }, []);
-
   return (
-    <div
-      className={`app px-3 pt-2 d-flex w-100 min-vh-100 position-absolute flex-column ${networkStatus}`}
-    >
-      <div className="flex-grow-0 flex-shrink-0 d-flex align-items-center mb-2">
-        <div className="flex-even d-flex align-items-center flex-column flex-sm-row">
-          <Title size="h4" className="mr-4 mb-0">
-            tree-online
-          </Title>
-          <ModalButton />
-        </div>
-      </div>
+    <AppContainer>
+      <Container>
+        <SubContainer>
+          <Title size="h3">tree-online</Title>
+        </SubContainer>
+      </Container>
 
       <FlexContainer>
         <InputDiv>
@@ -61,16 +38,47 @@ const App = () => {
       </div>
 
       <Menu />
-    </div>
+    </AppContainer>
   );
 };
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  min-height: 100vh;
+  padding: 10px;
+  overflow: hidden;
+`;
+
+const Container = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+`;
+
+const SubContainer = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+
+  @media (min-width: 576px) {
+    flex-direction: row;
+  }
+`;
 
 const FlexContainer = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 1000px) {
+  @media (min-width: 900px) {
     flex-direction: row;
   }
 `;
@@ -79,7 +87,7 @@ const InputDiv = styled.div`
   flex: 1;
   display: flex;
 
-  @media (min-width: 1000px) {
+  @media (min-width: 900px) {
     max-width: 50%;
   }
 `;
@@ -89,7 +97,7 @@ const TreeDiv = styled.div`
   display: flex;
   padding-left: 0;
 
-  @media (min-width: 1000px) {
+  @media (min-width: 900px) {
     padding-left: 12px;
     max-width: 50%;
   }
@@ -97,14 +105,10 @@ const TreeDiv = styled.div`
 
 const FullWidthHeightInput = styled(Input)`
   flex-grow: 1;
-  width: 100%;
-  height: 100%;
 `;
 
 const FullWidthHeightTree = styled(Tree)`
   flex-grow: 1;
-  width: 100%;
-  height: 100%;
 `;
 
 export default connect()(App);

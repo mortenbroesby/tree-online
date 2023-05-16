@@ -4,6 +4,7 @@ import Editor from 'react-simple-code-editor';
 import { bindActionCreators, Dispatch } from 'redux';
 import { updateSource } from '../store/source/actions';
 import { SourceState } from '../store/source/types';
+import styled from 'styled-components';
 import './Input.scss';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
@@ -50,8 +51,7 @@ export class Input extends React.Component<InputProps> {
         ref={this.editorRef}
         className={`input p-2 d-flex rounded-sm ${this.props.className}`}
       >
-        <Editor
-          className="flex-grow-1"
+        <StyledEditor
           value={this.props.source}
           onValueChange={this.props.updateSource}
           highlight={this.highlight}
@@ -60,6 +60,8 @@ export class Input extends React.Component<InputProps> {
     );
   }
 }
+
+const StyledEditor = styled(Editor)``;
 
 const mapStateToProps = ({ source }: { source: SourceState }) => ({
   source: source.source,
