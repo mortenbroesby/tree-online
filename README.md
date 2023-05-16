@@ -1,12 +1,10 @@
-# [tree.nathanfriend.io](https://tree.nathanfriend.io)
-
-<a href="https://gitlab.com/nfriend/tree-online/pipelines" target="_blank"><img src="https://gitlab.com/nfriend/tree-online/badges/master/pipeline.svg" alt="GitLab build status"></a>
+# [mortenbroesby.github.io/tree-online](https://mortenbroesby.github.io/tree-online)
 
 <img alt="The tree.nathanfriend.io logo" src="public/tree-logo.png" width="200"/>
 
 ## What is this?
 
-[tree.nathanfriend.io](https://tree.nathanfriend.io) is an online [tree](http://mama.indstate.edu/users/ice/tree/)-like utility for generating ASCII folder structure diagrams.
+[mortenbroesby.github.io/tree-online](https://mortenbroesby.github.io/tree-online) is an online [tree](http://mama.indstate.edu/users/ice/tree/)-like utility for generating ASCII folder structure diagrams.
 
 It takes input like this:
 
