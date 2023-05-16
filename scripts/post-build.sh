@@ -8,6 +8,6 @@ populate_placeholder() {
 
 echo 'Injecting variables into the build output...'
 
-populate_placeholder '%%%GITLAB_CI_TIMESTAMP%%%' `date -u +'%Y-%m-%dT%H:%M:%SZ'`
+populate_placeholder '%%%GITHUB_CI_TIMESTAMP%%%' `date -u +'%Y-%m-%dT%H:%M:%SZ'`
 populate_placeholder '%%%CI_COMMIT_SHORT_SHA%%%' $(echo ${GITHUB_SHA} | cut -c1-7)
 populate_placeholder '%%%CI_PROJECT_URL%%%' "https://github.com/${GITHUB_REPOSITORY}"
