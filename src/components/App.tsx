@@ -5,7 +5,7 @@ import { DeploymentStatus } from './DeploymentStatus';
 import Input from './Input';
 import Menu from './Menu';
 import Tree from './Tree';
-import { Accordion } from './Accordion';
+import ModalButton from './ModalButton';
 
 interface AppState {
   networkStatus: 'offline' | 'online';
@@ -41,7 +41,7 @@ export class App extends React.Component<void, AppState> {
             >
               What is this?
             </a>
-            <Accordion title="Tips">Lorem ipsum</Accordion>
+            <ModalButton />
           </div>
           <Menu className="flex-even pl-4 d-none d-lg-flex" />
         </div>

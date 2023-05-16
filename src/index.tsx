@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { configureStore } from './store';
+import { MantineProvider } from '@mantine/core';
 
 import './third-party/JSONCrush';
 
@@ -16,9 +17,11 @@ import App from './components/App';
 const store = configureStore();
 
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <MantineProvider withNormalizeCSS>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </MantineProvider>,
   document.getElementById('root'),
 );
 
