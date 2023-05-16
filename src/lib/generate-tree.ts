@@ -149,9 +149,9 @@ const isLastChild = (structure: FileStructure): boolean => {
   );
 };
 
-function convertHTMLLinkToMarkdown(s: string): string {
+function convertHTMLLinkToMarkdown(input: string): string {
   const urlRegex = /(^|\s)(https?:\/\/[^\s]+)/g;
-  return s.replace(urlRegex, '$1[Link]($2)');
+  return input.replace(urlRegex, '$1[Link]($2)');
 }
 
 function adjustComments({
@@ -164,20 +164,20 @@ function adjustComments({
   useIcon: boolean;
 }): string {
   // Find the index of ' # ' in the string
-  const doubleSlashIndex = value.indexOf(' # ');
+  const commentIndex = value.indexOf(' # ');
 
-  const slashOrFolder = useIcon ? ' 📁' : '/';
+  const slashOrFolder = useIcon ? ' 📂' : '/';
 
   // If ' # ' is not found, return the original string,
   // potentially adding a slash at the end depending on addSlash
-  if (doubleSlashIndex === -1) {
+  if (commentIndex === -1) {
     return addSlash ? `${value}${slashOrFolder}` : value;
   }
 
   // If ' # ' is found, return a string where ' # ' is potentially
   // preceded by a slash depending on addSlash
-  const beforeHash = value.substring(0, doubleSlashIndex);
-  const afterHash = value.substring(doubleSlashIndex);
+  const beforeHash = value.substring(0, commentIndex);
+  const afterHash = value.substring(commentIndex);
 
   return addSlash
     ? `${beforeHash}${slashOrFolder}${afterHash}`
