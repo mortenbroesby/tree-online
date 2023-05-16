@@ -109,22 +109,24 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           <label className="d-flex align-items-center my-1 mr-3">
             <Toggle
               className="mr-1 options-toggle"
-              defaultChecked={this.props.useIcon}
-              onChange={this.onIconChanged}
-              icons={false}
-            />
-            <span className="no-wrap">Icons</span>
-          </label>
-
-          <label className="d-flex align-items-center my-1 mr-3">
-            <Toggle
-              className="mr-1 options-toggle"
               defaultChecked={this.props.trailingSlash}
               onChange={this.onTrailingSlashChanged}
               icons={false}
             />
             <span className="no-wrap">Trailing /</span>
           </label>
+
+          {this.props.trailingSlash && (
+            <label className="d-flex align-items-center my-1 mr-3">
+              <Toggle
+                className="mr-1 options-toggle"
+                defaultChecked={this.props.useIcon}
+                onChange={this.onIconChanged}
+                icons={false}
+              />
+              <span className="no-wrap">Icons</span>
+            </label>
+          )}
 
           <label className="d-flex align-items-center my-1">
             <Toggle
