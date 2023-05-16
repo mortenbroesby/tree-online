@@ -1,5 +1,9 @@
 # [mortenbroesby.github.io/tree-online](https://mortenbroesby.github.io/tree-online)
 
+## Disclaimer 
+
+All original credits goes to Nathan Friend. [tree.nathanfriend.io](https://gitlab.com/nfriend/tree-online)
+
 <img alt="The tree.nathanfriend.io logo" src="public/tree-logo.png" width="200"/>
 
 ## What is this?
