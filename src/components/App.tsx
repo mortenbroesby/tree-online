@@ -6,6 +6,7 @@ import Menu from './Menu';
 import Tree from './Tree';
 import ModalButton from './ModalButton';
 import { Title } from '@mantine/core';
+import styled from 'styled-components';
 
 const App = () => {
   const [networkStatus, setNetworkStatus] = useState(
@@ -37,24 +38,23 @@ const App = () => {
           <ModalButton />
         </div>
       </div>
-      <div className="flex-grow-1 d-flex flex-column flex-lg-row">
-        <div className="flex-even d-flex mr-0 mr-lg-2">
-          <Input className="flex-grow-1" />
-        </div>
-        <div className="flex-even">
-          <Tree className="flex-grow-1" />
-        </div>
-      </div>
+
+      <FlexContainer>
+        <InputDiv>
+          <FullWidthHeightInput />
+        </InputDiv>
+        <TreeDiv>
+          <FullWidthHeightTree />
+        </TreeDiv>
+      </FlexContainer>
+
       <div className="flex-grow-0 flex-shrink-0 d-flex align-items-center align-items-sm-start mt-2 flex-column flex-md-row">
         <p className="text-muted text-center text-sm-left mb-2 pr-0 pr-sm-4 mr-auto">
           <DeploymentStatus />
         </p>
 
         <div className="d-flex flex-column flex-sm-row align-items-center align-items-sm-start mb-2 mt-md-0">
-          <a
-            className="pr-0 pr-sm-4 view-source-on-github-link no-wrap hide-offline"
-            href="https://github.com/mortenbroesby/tree-online"
-          >
+          <a href="https://github.com/mortenbroesby/tree-online">
             View the source on Github
           </a>
         </div>
@@ -64,5 +64,47 @@ const App = () => {
     </div>
   );
 };
+
+const FlexContainer = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 1000px) {
+    flex-direction: row;
+  }
+`;
+
+const InputDiv = styled.div`
+  flex: 1;
+  display: flex;
+
+  @media (min-width: 1000px) {
+    max-width: 50%;
+  }
+`;
+
+const TreeDiv = styled.div`
+  flex: 1;
+  display: flex;
+  padding-left: 0;
+
+  @media (min-width: 1000px) {
+    padding-left: 12px;
+    max-width: 50%;
+  }
+`;
+
+const FullWidthHeightInput = styled(Input)`
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+`;
+
+const FullWidthHeightTree = styled(Tree)`
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+`;
 
 export default connect()(App);
