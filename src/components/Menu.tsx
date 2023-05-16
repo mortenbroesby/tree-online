@@ -46,12 +46,12 @@ const Menu: React.FC<{
   const [opened, { open, close }] = useDisclosure(false);
 
   const onCopy = useCallback(() => {
-    setCopyButtonText('Copied to clipboard!');
+    setCopyButtonText('Tree was copied!');
     setTimeout(() => setCopyButtonText(COPY), BUTTON_TEXT_TIMEOUT);
   }, []);
 
   const onShare = useCallback(() => {
-    setShareButtonText('URL copied!');
+    setShareButtonText('URL was copied!');
     setTimeout(() => setShareButtonText(SHARE), BUTTON_TEXT_TIMEOUT);
   }, []);
 
@@ -94,7 +94,7 @@ const Menu: React.FC<{
       >
         <MenuContainer>
           <Group align="center" spacing="xl">
-            <Stack spacing="sm" align="center">
+            <CheckboxGroup spacing="sm" align="center">
               <Text weight="bold" underline>
                 Formatting
               </Text>
@@ -122,11 +122,11 @@ const Menu: React.FC<{
                   />
                 )}
               </Stack>
-            </Stack>
+            </CheckboxGroup>
 
             <Divider orientation="vertical" variant="dashed" />
 
-            <Stack>
+            <ButtonGroup>
               <Stack
                 spacing="sm"
                 role="group"
@@ -152,7 +152,7 @@ const Menu: React.FC<{
               >
                 <Button color="orange">Read more here</Button>
               </FullWidthLink>
-            </Stack>
+            </ButtonGroup>
           </Group>
         </MenuContainer>
       </Modal>
@@ -183,6 +183,16 @@ const MenuContainer = styled.div`
   background-color: white;
   min-width: 200px;
   border-radius: 8px;
+`;
+
+const CheckboxGroup = styled(Stack)`
+  max-width: 220px;
+  min-width: 220px;
+`;
+
+const ButtonGroup = styled(Stack)`
+  max-width: 220px;
+  min-width: 220px;
 `;
 
 const BurgerContainer = styled.div`

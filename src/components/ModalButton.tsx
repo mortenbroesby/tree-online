@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Group, Button, Text, Stack } from '@mantine/core';
+import { Modal, Button, Text, Stack } from '@mantine/core';
 import { Code } from '@mantine/core';
 
 const codeForPreviousDemo = `Use a hash/pund sign (#) to add a comment after a folder.
