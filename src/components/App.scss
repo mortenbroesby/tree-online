@@ -3,25 +3,12 @@
     font-size: 1.2rem;
   }
 
-  .view-source-on-gitlab-link {
+  .view-source-on-github-link {
+    height: 24px;
+
     svg {
-      width: 2rem;
-      margin-top: -5px;
-      fill: #f4b700;
-    }
-  }
-
-  .pipeline-status-link {
-    width: 116px;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .app {
-    .view-source-on-gitlab-link {
-      svg {
-        fill: #e17400;
-      }
+      width: 100%;
+      height: auto;
     }
   }
 }

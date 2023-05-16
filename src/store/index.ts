@@ -29,7 +29,6 @@ export const getTree = createSelector(
 
     const generatedTree = generateTree(parsedInput, {
       charset: options.fancy ? 'utf-8' : 'ascii',
-      fullPath: options.fullPath,
       trailingDirSlash: options.trailingSlash,
       rootDot: options.rootDot,
     });

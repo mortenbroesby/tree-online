@@ -3,14 +3,12 @@ import {
   OptionActionTypes,
   OptionsState,
   UPDATE_FANCY,
-  UPDATE_FULL_PATH,
   UPDATE_ROOT_DOT,
   UPDATE_TRAILING_SLASH,
 } from './types';
 
 const defaultState: OptionsState = {
   fancy: true,
-  fullPath: false,
   trailingSlash: true,
   rootDot: true,
 };
@@ -28,11 +26,6 @@ export function optionsReducer(
       return {
         ...state,
         fancy: action.newValue,
-      };
-    case UPDATE_FULL_PATH:
-      return {
-        ...state,
-        fullPath: action.newValue,
       };
     case UPDATE_TRAILING_SLASH:
       return {

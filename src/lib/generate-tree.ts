@@ -24,12 +24,6 @@ interface GenerateTreeOptions {
   trailingDirSlash?: boolean;
 
   /**
-   * Whether or not to print the full
-   * path of the item
-   */
-  fullPath?: boolean;
-
-  /**
    * Whether or not to render a dot as the root of the tree
    */
   rootDot?: boolean;
@@ -39,7 +33,6 @@ interface GenerateTreeOptions {
 const defaultOptions: GenerateTreeOptions = {
   charset: 'utf-8',
   trailingDirSlash: false,
-  fullPath: false,
   rootDot: true,
 };
 
@@ -123,21 +116,13 @@ const getName = (
 
   // Optionally append a trailing slash
   nameChunks = nameChunks.map(chunk => {
-    return processString({
+    const withCommentsAdjusted = adjustComments({
       value: chunk,
       addSlash: shouldAddTralingSlash,
     });
+
+    return withCommentsAdjusted;
   });
-
-  // Optionally prefix the name with its full path
-  if (options.fullPath && structure.parent && structure.parent) {
-    const targetName = getName(
-      structure.parent,
-      defaultsDeep({}, { trailingDirSlash: true }, options),
-    );
-
-    nameChunks.unshift(targetName);
-  }
 
   return nameChunks.join('');
 };
@@ -158,7 +143,7 @@ interface ProcessStringParams {
   addSlash: boolean;
 }
 
-function processString({
+function adjustComments({
   value,
   addSlash = false,
 }: ProcessStringParams): string {

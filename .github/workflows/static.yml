@@ -28,10 +28,21 @@ jobs:
           node-version: '14'
           cache: 'yarn'
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Install and build
         run: |
           yarn install
           yarn build
+
+      - name: Run post-build script
+        run: ./scripts/post-build.sh
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

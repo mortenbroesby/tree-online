@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './App.scss';
 import { DeploymentStatus } from './DeploymentStatus';
-import { ReactComponent as GitLabLogo } from './gitlab-logo.svg';
 import Input from './Input';
 import Menu from './Menu';
 import Tree from './Tree';
@@ -59,20 +58,10 @@ export class App extends React.Component<void, AppState> {
           </p>
           <div className="d-flex flex-column flex-sm-row align-items-center align-items-sm-start mb-2 mt-md-0">
             <a
-              className="pr-0 pr-sm-4 view-source-on-gitlab-link no-wrap hide-offline"
-              href="https://gitlab.com/nfriend/tree-online"
+              className="pr-0 pr-sm-4 view-source-on-github-link no-wrap hide-offline"
+              href="https://github.com/mortenbroesby/tree-online"
             >
-              View the source on Gitlab
-              <GitLabLogo />
-            </a>
-            <a
-              className="pipeline-status-link mt-2 mt-sm-0 mb-4 mb-md-0 hide-offline"
-              href="https://gitlab.com/nfriend/tree-online/pipelines"
-            >
-              <img
-                src="https://gitlab.com/nfriend/tree-online/badges/master/pipeline.svg"
-                alt="GitLab build status"
-              />
+              View the source on Github
             </a>
           </div>
         </div>
