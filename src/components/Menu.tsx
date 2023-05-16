@@ -141,7 +141,17 @@ const Menu: React.FC<{
                 </CopyToClipboard>
               </Stack>
 
+              <Divider orientation="horizontal" variant="dashed" />
+
               <ModalButton />
+
+              <FullWidthLink
+                href="https://github.com/mortenbroesby/tree-online#what-is-this"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button color="orange">Read more here</Button>
+              </FullWidthLink>
             </Stack>
           </Group>
         </MenuContainer>
@@ -159,6 +169,14 @@ const Menu: React.FC<{
     </>
   );
 };
+
+const FullWidthLink = styled.a`
+  width: 100%;
+
+  & > * {
+    width: 100%;
+  }
+`;
 
 const MenuContainer = styled.div`
   padding: 16px;

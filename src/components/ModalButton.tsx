@@ -27,22 +27,12 @@ export default function ModalButton() {
           <Text weight="bold">Tips and tricks</Text>
 
           <Code block>{codeForPreviousDemo}</Code>
-
-          <a
-            href="https://github.com/mortenbroesby/tree-online#what-is-this"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button variant="subtle">Read more here</Button>
-          </a>
         </Stack>
       </Modal>
 
-      <Group position="center">
-        <Button variant="subtle" onClick={open}>
-          Want to know more?
-        </Button>
-      </Group>
+      <Button color="cyan" onClick={open}>
+        Tips and Tricks
+      </Button>
     </>
   );
 }
