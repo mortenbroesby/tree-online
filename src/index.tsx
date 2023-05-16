@@ -9,7 +9,6 @@ import { MantineProvider } from '@mantine/core';
 
 import './third-party/JSONCrush';
 
-import 'react-toggle/style.css';
 import './index.scss';
 
 import App from './components/App';

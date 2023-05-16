@@ -1,29 +1,24 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useCallback } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
-import Toggle from 'react-toggle';
 import { bindActionCreators, Dispatch } from 'redux';
 import { AppState, getTree } from '../store';
+import { Button, Checkbox, Text, Group, Stack, Flex } from '@mantine/core';
+import styled from 'styled-components';
 import {
   updateFancy,
   updateUseIcon,
   updateTrailingSlash,
   updateRootDot,
 } from '../store/options/actions';
-import './Menu.scss';
 
 const COPY = 'Copy';
 const SHARE = 'Share';
-const COPIED = 'Copied!';
 const URL_COPIED = 'URL copied!';
 const BUTTON_TEXT_TIMEOUT = 1200;
 
-interface MenuState {
-  copyButtonText: string;
-  shareButtonText: string;
-}
-
-interface MenuProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
+const Menu: React.FC<{
   tree: string;
   fancy: boolean;
   useIcon: boolean;
@@ -33,115 +28,112 @@ interface MenuProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   updateUseIcon: (newValue: boolean) => void;
   updateTrailingSlash: (newValue: boolean) => void;
   updateRootDot: (newValue: boolean) => void;
-}
+}> = props => {
+  const [copyButtonText, setCopyButtonText] = useState(COPY);
+  const [shareButtonText, setShareButtonText] = useState(SHARE);
 
-export class Menu extends React.Component<MenuProps, MenuState> {
-  state: MenuState = {
-    copyButtonText: COPY,
-    shareButtonText: SHARE,
-  };
+  const onCopy = useCallback(() => {
+    setCopyButtonText(URL_COPIED);
+    setTimeout(() => setCopyButtonText(COPY), BUTTON_TEXT_TIMEOUT);
+  }, []);
 
-  onCopy = () => {
-    this.setState({ copyButtonText: COPIED });
-    setTimeout(() => {
-      this.setState({ copyButtonText: COPY });
-    }, BUTTON_TEXT_TIMEOUT);
-  };
+  const onShare = useCallback(() => {
+    setShareButtonText(URL_COPIED);
+    setTimeout(() => setShareButtonText(SHARE), BUTTON_TEXT_TIMEOUT);
+  }, []);
 
-  onShare = () => {
-    this.setState({ shareButtonText: URL_COPIED });
-    setTimeout(() => {
-      this.setState({ shareButtonText: SHARE });
-    }, BUTTON_TEXT_TIMEOUT);
-  };
+  const onFancyChanged = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      props.updateFancy(event.target.checked);
+    },
+    [props.updateFancy],
+  );
 
-  onFancyChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.updateFancy(event.target.checked);
-  };
+  const onIconChanged = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      props.updateUseIcon(event.target.checked);
+    },
+    [props.updateUseIcon],
+  );
 
-  onIconChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.updateUseIcon(event.target.checked);
-  };
+  const onTrailingSlashChanged = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      props.updateTrailingSlash(event.target.checked);
+    },
+    [props.updateTrailingSlash],
+  );
 
-  onTrailingSlashChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.updateTrailingSlash(event.target.checked);
-  };
+  const onRootDotChanged = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      props.updateRootDot(event.target.checked);
+    },
+    [props.updateRootDot],
+  );
 
-  onRootDotChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.updateRootDot(event.target.checked);
-  };
+  return (
+    <BottomRightElement>
+      <MenuContainer>
+        <Flex direction="column" align="flex-end">
+          <Group spacing="sm" role="group" aria-label="Copy and share buttons">
+            <CopyToClipboard text={props.tree} onCopy={onCopy}>
+              <Button>{copyButtonText}</Button>
+            </CopyToClipboard>
 
-  render() {
-    // 'd-flex' class is applied by parent to allow for responsive behavior
-    return (
-      <div
-        className={`menu align-items-center ${this.props.className} flex-column flex-sm-row`}
-      >
-        <div
-          className="btn-group mr-0 mr-sm-4 align-self-stretch align-self-md-center"
-          role="group"
-          aria-label="Copy and share buttons"
-        >
-          <CopyToClipboard text={this.props.tree} onCopy={this.onCopy}>
-            <button className="btn btn-success copy-button py-3 py-sm-0">
-              <b>{this.state.copyButtonText}</b>
-            </button>
-          </CopyToClipboard>
+            <CopyToClipboard text={window.location.href} onCopy={onShare}>
+              <Button variant="light">{shareButtonText}</Button>
+            </CopyToClipboard>
+          </Group>
 
-          <CopyToClipboard text={window.location.href} onCopy={this.onShare}>
-            <button className="btn btn-secondary share-button">
-              {this.state.shareButtonText}
-            </button>
-          </CopyToClipboard>
-        </div>
+          <OptionsContainer>
+            <Stack spacing="sm" align="center">
+              <Text weight="bold" underline>
+                Options
+              </Text>
+              <Stack spacing="sm" align="stretch">
+                <Checkbox
+                  checked={props.fancy}
+                  onChange={onFancyChanged}
+                  label="Fancy format"
+                />
+                <Checkbox
+                  checked={props.rootDot}
+                  onChange={onRootDotChanged}
+                  label="Root has dot"
+                />
+                <Checkbox
+                  checked={props.trailingSlash}
+                  onChange={onTrailingSlashChanged}
+                  label="Trailing slash"
+                />
+                {props.trailingSlash && (
+                  <Checkbox
+                    checked={props.useIcon}
+                    onChange={onIconChanged}
+                    label="Use icons"
+                  />
+                )}
+              </Stack>
+            </Stack>
+          </OptionsContainer>
+        </Flex>
+      </MenuContainer>
+    </BottomRightElement>
+  );
+};
 
-        <div className="d-flex align-items-center flex-wrap mt-4 mt-sm-0">
-          <label className="d-flex align-items-center my-1 mr-3">
-            <Toggle
-              className="mr-1 options-toggle"
-              defaultChecked={this.props.fancy}
-              onChange={this.onFancyChanged}
-              icons={false}
-            />
-            <span className="no-wrap">Fancy</span>
-          </label>
+const MenuContainer = styled.div`
+  padding: 16px;
+`;
 
-          <label className="d-flex align-items-center my-1 mr-3">
-            <Toggle
-              className="mr-1 options-toggle"
-              defaultChecked={this.props.trailingSlash}
-              onChange={this.onTrailingSlashChanged}
-              icons={false}
-            />
-            <span className="no-wrap">Trailing /</span>
-          </label>
+const OptionsContainer = styled.div`
+  padding: 16px;
+`;
 
-          {this.props.trailingSlash && (
-            <label className="d-flex align-items-center my-1 mr-3">
-              <Toggle
-                className="mr-1 options-toggle"
-                defaultChecked={this.props.useIcon}
-                onChange={this.onIconChanged}
-                icons={false}
-              />
-              <span className="no-wrap">Icons</span>
-            </label>
-          )}
-
-          <label className="d-flex align-items-center my-1">
-            <Toggle
-              className="mr-1 options-toggle"
-              defaultChecked={this.props.rootDot}
-              onChange={this.onRootDotChanged}
-              icons={false}
-            />
-            <span className="no-wrap">Root .</span>
-          </label>
-        </div>
-      </div>
-    );
-  }
-}
+const BottomRightElement = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
 
 const mapStateToProps = (state: AppState) => ({
   tree: getTree(state),

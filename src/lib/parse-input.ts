@@ -55,10 +55,10 @@ export const parseInput = (input: string): FileStructure => {
  * @param input The plain-text input from the user
  */
 export const splitInput = (input: string): FileStructure[] => {
-  let lines = input.match(newlineSplitterRegex) || [];
+  let lines: string[] = input.match(newlineSplitterRegex) || [];
 
   // filter out empty lines
-  lines = lines.filter(line => !onlyWhitespaceRegex.test(line));
+  lines = lines.filter(line => !onlyWhitespaceRegex.test(line)) as string[];
 
   return lines.map(line => {
     const matchResult = leadingWhitespaceAndBulletRegex.exec(line);

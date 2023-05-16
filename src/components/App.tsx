@@ -43,7 +43,6 @@ export class App extends React.Component<void, AppState> {
             </a>
             <ModalButton />
           </div>
-          <Menu className="flex-even pl-4 d-none d-lg-flex" />
         </div>
         <div className="flex-grow-1 d-flex flex-column flex-lg-row">
           <div className="flex-even d-flex mr-0 mr-lg-2">
@@ -52,7 +51,6 @@ export class App extends React.Component<void, AppState> {
           <div className="flex-even">
             <Tree className="flex-grow-1" />
           </div>
-          <Menu className="d-flex d-lg-none pt-2 pb-5" />
         </div>
         <div className="flex-grow-0 flex-shrink-0 d-flex align-items-center align-items-sm-start mt-2 flex-column flex-md-row">
           <p className="text-muted text-center text-sm-left mb-2 pr-0 pr-sm-4 mr-auto">
@@ -67,6 +65,8 @@ export class App extends React.Component<void, AppState> {
             </a>
           </div>
         </div>
+
+        <Menu />
       </div>
     );
   }
