@@ -5,6 +5,7 @@ import { DeploymentStatus } from './DeploymentStatus';
 import Input from './Input';
 import Menu from './Menu';
 import Tree from './Tree';
+import { Accordion } from './Accordion';
 
 interface AppState {
   networkStatus: 'offline' | 'online';
@@ -33,13 +34,14 @@ export class App extends React.Component<void, AppState> {
           <div className="flex-even d-flex align-items-center flex-column flex-sm-row">
             <h1 className="mr-4 mb-0">tree-online</h1>
             <a
-              className="my-2 my-sm-0 hide-offline"
+              className="my-2 mr-4 my-sm-0 hide-offline"
               href="https://github.com/mortenbroesby/tree-online#what-is-this"
               target="_blank"
               rel="noopener noreferrer"
             >
               What is this?
             </a>
+            <Accordion title="Tips">Lorem ipsum</Accordion>
           </div>
           <Menu className="flex-even pl-4 d-none d-lg-flex" />
         </div>
