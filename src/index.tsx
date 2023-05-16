@@ -16,7 +16,7 @@ import App from './components/App';
 const store = configureStore();
 
 render(
-  <MantineProvider withNormalizeCSS>
+  <MantineProvider withGlobalStyles withNormalizeCSS>
     <Provider store={store}>
       <App />
     </Provider>

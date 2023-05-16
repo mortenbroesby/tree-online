@@ -4,7 +4,15 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { AppState, getTree } from '../store';
-import { Button, Checkbox, Text, Group, Stack, Flex } from '@mantine/core';
+import {
+  Button,
+  Checkbox,
+  Text,
+  Group,
+  Stack,
+  Flex,
+  Accordion,
+} from '@mantine/core';
 import styled from 'styled-components';
 import {
   updateFancy,
@@ -123,6 +131,11 @@ const Menu: React.FC<{
 
 const MenuContainer = styled.div`
   padding: 16px;
+  background-color: white;
+  min-width: 200px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
 `;
 
 const OptionsContainer = styled.div`
@@ -145,7 +158,12 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
-    { updateFancy, updateUseIcon, updateTrailingSlash, updateRootDot },
+    {
+      updateFancy,
+      updateUseIcon,
+      updateTrailingSlash,
+      updateRootDot,
+    },
     dispatch,
   );
 

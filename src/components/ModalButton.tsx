@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Group, Button } from '@mantine/core';
+import { Modal, Group, Button, Text, Stack } from '@mantine/core';
 import { Code } from '@mantine/core';
 
 const codeForPreviousDemo = `Use a hash/pund sign (#) to add a comment after a folder.
@@ -23,12 +23,24 @@ export default function ModalButton() {
         centered
         size="auto"
       >
-        <Code block>{codeForPreviousDemo}</Code>
+        <Stack align="center">
+          <Text weight="bold">Tips and tricks</Text>
+
+          <Code block>{codeForPreviousDemo}</Code>
+
+          <a
+            href="https://github.com/mortenbroesby/tree-online#what-is-this"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="subtle">Read more here</Button>
+          </a>
+        </Stack>
       </Modal>
 
       <Group position="center">
         <Button variant="subtle" onClick={open}>
-          Tips and tricks
+          Want to know more?
         </Button>
       </Group>
     </>
