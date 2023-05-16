@@ -5,6 +5,7 @@
   "repository": "git@github.com:mortenbroesby/tree-online.git",
   "author": "Nathan Friend <nathan@gitlab.com>",
   "license": "MIT",
+  "homepage": "https://mortenbroesby.github.io/tree-online",
   "dependencies": {
     "@types/core-js": "2.5.4",
     "@types/jest": "26.0.15",
