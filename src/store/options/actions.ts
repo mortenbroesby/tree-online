@@ -1,8 +1,20 @@
-import { UPDATE_FANCY, UPDATE_TRAILING_SLASH, UPDATE_ROOT_DOT } from './types';
+import {
+  UPDATE_FANCY,
+  UPDATE_TRAILING_SLASH,
+  UPDATE_ROOT_DOT,
+  UPDATE_USE_FOLDER_ICON,
+} from './types';
 
 export function updateFancy(newValue: boolean) {
   return {
     type: UPDATE_FANCY,
+    newValue,
+  };
+}
+
+export function updateUseFolderIcon(newValue: boolean) {
+  return {
+    type: UPDATE_USE_FOLDER_ICON,
     newValue,
   };
 }

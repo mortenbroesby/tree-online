@@ -27,6 +27,11 @@ interface GenerateTreeOptions {
    * Whether or not to render a dot as the root of the tree
    */
   rootDot?: boolean;
+
+  /**
+   * Whether or not to use a folder icon
+   */
+  useFolderIcon?: boolean;
 }
 
 /** The default options if no options are provided */
@@ -34,6 +39,7 @@ const defaultOptions: GenerateTreeOptions = {
   charset: 'utf-8',
   trailingDirSlash: false,
   rootDot: true,
+  useFolderIcon: false,
 };
 
 /**
@@ -114,6 +120,8 @@ const getName = (
   const shouldAddTralingSlash =
     trailingSlashEnabled && itemHasChildren && itemNeedsASlash;
 
+  const useFolderIcon = options?.useFolderIcon ?? false;
+
   // Optionally append a trailing slash
   nameChunks = nameChunks.map(chunk => {
     const withMarkdownLinks = convertHTMLLinkToMarkdown(chunk);
@@ -121,6 +129,7 @@ const getName = (
     const withCommentsAdjusted = adjustComments({
       value: withMarkdownLinks,
       addSlash: shouldAddTralingSlash,
+      useFolderIcon,
     });
 
     return withCommentsAdjusted;
@@ -148,17 +157,21 @@ function convertHTMLLinkToMarkdown(s: string): string {
 function adjustComments({
   value,
   addSlash = false,
+  useFolderIcon = false,
 }: {
   value: string;
   addSlash: boolean;
+  useFolderIcon: boolean;
 }): string {
   // Find the index of ' # ' in the string
   const doubleSlashIndex = value.indexOf(' # ');
 
+  const slashOrFolder = useFolderIcon ? ' 📁' : '/';
+
   // If ' # ' is not found, return the original string,
   // potentially adding a slash at the end depending on addSlash
   if (doubleSlashIndex === -1) {
-    return addSlash ? `${value}/` : value;
+    return addSlash ? `${value}${slashOrFolder}` : value;
   }
 
   // If ' # ' is found, return a string where ' # ' is potentially
@@ -166,5 +179,7 @@ function adjustComments({
   const beforeHash = value.substring(0, doubleSlashIndex);
   const afterHash = value.substring(doubleSlashIndex);
 
-  return addSlash ? `${beforeHash}/${afterHash}` : `${beforeHash}${afterHash}`;
+  return addSlash
+    ? `${beforeHash}${slashOrFolder}${afterHash}`
+    : `${beforeHash}${afterHash}`;
 }

@@ -3,6 +3,7 @@ import {
   OptionActionTypes,
   OptionsState,
   UPDATE_FANCY,
+  UPDATE_USE_FOLDER_ICON,
   UPDATE_ROOT_DOT,
   UPDATE_TRAILING_SLASH,
 } from './types';
@@ -11,6 +12,7 @@ const defaultState: OptionsState = {
   fancy: true,
   trailingSlash: true,
   rootDot: true,
+  useFolderIcon: false,
 };
 
 const savedState = getSavedState();
@@ -26,6 +28,11 @@ export function optionsReducer(
       return {
         ...state,
         fancy: action.newValue,
+      };
+    case UPDATE_USE_FOLDER_ICON:
+      return {
+        ...state,
+        useFolderIcon: action.newValue,
       };
     case UPDATE_TRAILING_SLASH:
       return {

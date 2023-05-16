@@ -6,6 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { AppState, getTree } from '../store';
 import {
   updateFancy,
+  updateUseFolderIcon,
   updateTrailingSlash,
   updateRootDot,
 } from '../store/options/actions';
@@ -25,9 +26,11 @@ interface MenuState {
 interface MenuProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   tree: string;
   fancy: boolean;
+  useFolderIcon: boolean;
   trailingSlash: boolean;
   rootDot: boolean;
   updateFancy: (newValue: boolean) => void;
+  updateUseFolderIcon: (newValue: boolean) => void;
   updateTrailingSlash: (newValue: boolean) => void;
   updateRootDot: (newValue: boolean) => void;
 }
@@ -54,6 +57,10 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   onFancyChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.props.updateFancy(event.target.checked);
+  };
+
+  onFolderIconChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.updateUseFolderIcon(event.target.checked);
   };
 
   onTrailingSlashChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +109,16 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           <label className="d-flex align-items-center my-1 mr-3">
             <Toggle
               className="mr-1 options-toggle"
+              defaultChecked={this.props.useFolderIcon}
+              onChange={this.onFolderIconChanged}
+              icons={false}
+            />
+            <span className="no-wrap">Folder icons</span>
+          </label>
+
+          <label className="d-flex align-items-center my-1 mr-3">
+            <Toggle
+              className="mr-1 options-toggle"
               defaultChecked={this.props.trailingSlash}
               onChange={this.onTrailingSlashChanged}
               icons={false}
@@ -127,13 +144,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 const mapStateToProps = (state: AppState) => ({
   tree: getTree(state),
   fancy: state.options.fancy,
+  useFolderIcon: state.options.useFolderIcon,
   trailingSlash: state.options.trailingSlash,
   rootDot: state.options.rootDot,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
-    { updateFancy, updateTrailingSlash, updateRootDot },
+    { updateFancy, updateUseFolderIcon, updateTrailingSlash, updateRootDot },
     dispatch,
   );
 
