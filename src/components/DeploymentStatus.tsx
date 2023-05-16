@@ -19,10 +19,10 @@ export class DeploymentStatus extends React.Component<
   constructor(props: DeploymentStatusProps) {
     super(props);
 
-    const formatString = 'Y/MM/DD \\a\\t HH:mm:ss ZZ';
+    const formatString = 'Do [of] MMMM, YYYY \\a\\t HH:mm:ss ZZ';
 
     if (process.env.NODE_ENV === 'production') {
-      const buildMoment = moment('%%%GITLAB_CI_TIMESTAMP%%%');
+      const buildMoment = moment('%%%GITHUB_CI_TIMESTAMP%%%');
       const deployedTimestamp = buildMoment.format(formatString);
       const deployedAgo = buildMoment.fromNow();
       const commitSha = '%%%CI_COMMIT_SHORT_SHA%%%';
@@ -30,7 +30,7 @@ export class DeploymentStatus extends React.Component<
 
       this.state.deploymentStatus = (
         <span>
-          Last deployed on {deployedTimestamp} ({deployedAgo}) for commit{' '}
+          Last deployed the {deployedTimestamp} ({deployedAgo}) for commit{' '}
           <a className="hide-offline" href={commitLink}>
             {commitSha}
           </a>
@@ -38,7 +38,7 @@ export class DeploymentStatus extends React.Component<
         </span>
       );
     } else {
-      this.state.deploymentStatus = `Running locally. The current date is ${moment().format(
+      this.state.deploymentStatus = `Running locally. The current date is the ${moment().format(
         formatString,
       )}`;
     }
