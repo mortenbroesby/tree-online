@@ -1,4 +1,4 @@
-# [mortenbroesby.github.io/tree-online](https://mortenbroesby.github.io/tree-online)
+# [tree-online](https://mortenbroesby.github.io/tree-online)
 
 ## Disclaimer 
 
@@ -8,7 +8,7 @@ All original credits goes to Nathan Friend. [tree.nathanfriend.io](https://gitla
 
 ## What is this?
 
-[mortenbroesby.github.io/tree-online](https://mortenbroesby.github.io/tree-online) is an online [tree](http://mama.indstate.edu/users/ice/tree/)-like utility for generating ASCII folder structure diagrams.
+[tree-online](https://mortenbroesby.github.io/tree-online) is an online [tree](http://mama.indstate.edu/users/ice/tree/)-like utility for generating ASCII folder structure diagrams.
 
 It takes input like this:
 
