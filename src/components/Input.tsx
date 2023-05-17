@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { updateSource } from '../store/source/actions';
 import { SourceState } from '../store/source/types';
 import styled from 'styled-components';
+import { MOBILE_FOLD } from '../constants';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   source: string;
@@ -58,10 +59,17 @@ export class Input extends React.Component<InputProps> {
 }
 
 const Container = styled.div`
+  display: flex;
   background: #eaeaea;
   padding: 12px;
-  width: 100%;
   height: 100%;
+  width: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  flex: 1 1;
+  border-radius: 8px;
 
   font-family: 'Fira code', 'Fira Mono', source-code-pro, Menlo, Monaco,
     Consolas, 'Courier New', monospace;
@@ -76,15 +84,17 @@ const Container = styled.div`
 
   textarea {
     outline: none;
-    width: 100%;
-    height: 100%;
+  }
+
+  > * {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    min-width: 100% !important;
   }
 `;
 
-const StyledEditor = styled(Editor)`
-  width: 100%;
-  height: 100%;
-`;
+const StyledEditor = styled(Editor)``;
 
 const mapStateToProps = ({ source }: { source: SourceState }) => ({
   source: source.source,

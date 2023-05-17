@@ -1,9 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { AppState, getTree } from '../store';
-import { Button } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { useMediaQuery } from '@mantine/hooks';
+import styled from 'styled-components';
+import { MOBILE_FOLD } from '../constants';
 
 const COPY = 'Copy output';
 const SHARE = 'Share URL';
@@ -27,7 +30,7 @@ const ShareButtonsGroup: React.FC<{
   }, []);
 
   return (
-    <>
+    <ButtonContainer>
       <CopyToClipboard text={props.tree} onCopy={onCopy}>
         <Button variant="gradient" gradient={{ from: 'red', to: 'orange' }}>
           {copyButtonText}
@@ -39,9 +42,37 @@ const ShareButtonsGroup: React.FC<{
           {shareButtonText}
         </Button>
       </CopyToClipboard>
-    </>
+    </ButtonContainer>
   );
 };
+
+const ButtonContainer: FC = ({ children, ...parameters }) => {
+  const isLargeScreen = useMediaQuery(`(min-width: ${MOBILE_FOLD}px`);
+
+  if (isLargeScreen) {
+    return (
+      <Group align="center" spacing="xl" {...parameters}>
+        {children}
+      </Group>
+    );
+  }
+
+  return (
+    <MenuContainer align="center" spacing="xl" {...parameters}>
+      {children}
+    </MenuContainer>
+  );
+};
+
+const MenuContainer = styled(Group)`
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 20px;
+`;
 
 const mapStateToProps = (state: AppState) => ({
   tree: getTree(state),

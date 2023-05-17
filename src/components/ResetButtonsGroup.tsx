@@ -2,8 +2,9 @@ import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { AppState } from '../store';
-import { Button } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import { clearSource, resetSource } from '../store/source/actions';
+import styled from 'styled-components';
 
 const ResetButtonsGroup: React.FC<{
   source: string;
@@ -19,7 +20,7 @@ const ResetButtonsGroup: React.FC<{
   }, [props]);
 
   return (
-    <>
+    <MenuContainer>
       <Button
         color="blue"
         variant="light"
@@ -37,9 +38,11 @@ const ResetButtonsGroup: React.FC<{
       >
         Clear text
       </Button>
-    </>
+    </MenuContainer>
   );
 };
+
+const MenuContainer = styled(Group)``;
 
 const mapStateToProps = (state: AppState) => ({
   source: state.source.source,

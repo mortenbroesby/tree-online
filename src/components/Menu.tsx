@@ -21,9 +21,9 @@ import {
   updateTrailingSlash,
   updateRootDot,
 } from '../store/options/actions';
-import { MOBILE_FOLD } from './App';
 import TipsAndTricksModalButton from './ModalButton';
 import ShareButtonsGroup from './ShareButtonsGroup';
+import { MOBILE_FOLD } from '../constants';
 
 const Menu: React.FC<{
   tree: string;
