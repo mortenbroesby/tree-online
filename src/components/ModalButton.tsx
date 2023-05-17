@@ -30,7 +30,7 @@ export default function ModalButton() {
         </Stack>
       </Modal>
 
-      <Button color="cyan" onClick={open}>
+      <Button variant="subtle" onClick={open}>
         Tips and Tricks
       </Button>
     </>

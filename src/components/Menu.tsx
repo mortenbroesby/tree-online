@@ -22,8 +22,8 @@ import {
   updateTrailingSlash,
   updateRootDot,
 } from '../store/options/actions';
-import ModalButton from './ModalButton';
 import { MOBILE_FOLD } from './App';
+import ModalButton from './ModalButton';
 
 const COPY = 'Copy to clipboard';
 const SHARE = 'Share URL';
@@ -144,8 +144,6 @@ const Menu: React.FC<{
 
               <Divider orientation="horizontal" variant="dashed" />
 
-              <ModalButton />
-
               <FullWidthLink
                 href="https://github.com/mortenbroesby/tree-online#what-is-this"
                 target="_blank"
@@ -160,6 +158,7 @@ const Menu: React.FC<{
 
       <TopRightElement>
         <BurgerContainer>
+          <ModalButton />
           <Burger
             opened={opened}
             onClick={open}
@@ -180,7 +179,7 @@ const FullWidthLink = styled.a`
 `;
 
 const MenuContainer = styled.div`
-  padding: 16px;
+  padding: 48px 16px;
   background-color: white;
   min-width: 200px;
   border-radius: 8px;
@@ -214,7 +213,7 @@ const ButtonGroup = styled(Stack)`
   min-width: 220px;
 `;
 
-const BurgerContainer = styled.div`
+const BurgerContainer = styled(Group)`
   padding: 12px;
 `;
 

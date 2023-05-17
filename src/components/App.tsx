@@ -4,15 +4,17 @@ import { DeploymentStatus } from './DeploymentStatus';
 import Input from './Input';
 import Menu from './Menu';
 import Tree from './Tree';
-import { Title } from '@mantine/core';
+import { Group, Title } from '@mantine/core';
 import styled from 'styled-components';
+import TreeLogo from './tree-logo.png';
 
 const App = () => {
   return (
     <AppContainer>
       <Container>
         <SubContainer>
-          <Title size="h3">tree-online</Title>
+          <Logo src={TreeLogo} alt="Tree Online" />
+          <Title size="h3">Tree Online</Title>
         </SubContainer>
       </Container>
 
@@ -60,7 +62,7 @@ const Container = styled.div`
   margin-bottom: 2px;
 `;
 
-const SubContainer = styled.div`
+const SubContainer = styled(Group)`
   flex: 1;
   display: flex;
   align-items: center;
@@ -99,6 +101,11 @@ const Deployment = styled.p`
   @media (min-width: ${MOBILE_FOLD}px) {
     margin-right: auto;
   }
+`;
+
+const Logo = styled.img`
+  height: 32px;
+  width: 32px;
 `;
 
 const Link = styled.a`
