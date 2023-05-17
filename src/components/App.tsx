@@ -40,7 +40,7 @@ const App = () => {
   );
 };
 
-const foldSize = 900;
+export const MOBILE_FOLD = 900;
 
 const AppContainer = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ const SubContainer = styled.div`
   flex-wrap: wrap;
   margin-bottom: 4px;
 
-  @media (min-width: ${foldSize}px) {
+  @media (min-width: ${MOBILE_FOLD}px) {
     flex-direction: row;
   }
 `;
@@ -81,7 +81,7 @@ const Footer = styled.div`
   margin-top: 8px;
   flex-direction: column;
 
-  @media (min-width: ${foldSize}px) {
+  @media (min-width: ${MOBILE_FOLD}px) {
     flex-direction: row;
     text-align: center;
   }
@@ -96,7 +96,7 @@ const Deployment = styled.p`
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: ${foldSize}px) {
+  @media (min-width: ${MOBILE_FOLD}px) {
     margin-right: auto;
   }
 `;
@@ -107,7 +107,7 @@ const Link = styled.a`
   align-items: center;
   margin-bottom: 2px;
 
-  @media (min-width: ${foldSize}px) {
+  @media (min-width: ${MOBILE_FOLD}px) {
     margin-top: 0;
   }
 `;
@@ -117,7 +117,7 @@ const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (min-width: ${foldSize}px) {
+  @media (min-width: ${MOBILE_FOLD}px) {
     flex-direction: row;
   }
 `;
@@ -126,7 +126,7 @@ const InputDiv = styled.div`
   flex: 1;
   display: flex;
 
-  @media (min-width: ${foldSize}px) {
+  @media (min-width: ${MOBILE_FOLD}px) {
     max-width: 50%;
   }
 `;
@@ -136,7 +136,7 @@ const TreeDiv = styled.div`
   display: flex;
   padding-left: 0;
 
-  @media (min-width: ${foldSize}px) {
+  @media (min-width: ${MOBILE_FOLD}px) {
     padding-left: 12px;
     max-width: 50%;
   }

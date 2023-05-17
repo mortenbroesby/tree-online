@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, FC } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { AppState, getTree } from '../store';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Burger } from '@mantine/core';
 import {
   Button,
@@ -23,6 +23,7 @@ import {
   updateRootDot,
 } from '../store/options/actions';
 import ModalButton from './ModalButton';
+import { MOBILE_FOLD } from './App';
 
 const COPY = 'Copy to clipboard';
 const SHARE = 'Share URL';
@@ -93,7 +94,7 @@ const Menu: React.FC<{
         size="auto"
       >
         <MenuContainer>
-          <Group align="center" spacing="xl">
+          <ContentGroup>
             <CheckboxGroup spacing="sm" align="center">
               <Text weight="bold" underline>
                 Formatting
@@ -153,7 +154,7 @@ const Menu: React.FC<{
                 <Button color="orange">Read more here</Button>
               </FullWidthLink>
             </ButtonGroup>
-          </Group>
+          </ContentGroup>
         </MenuContainer>
       </Modal>
 
@@ -184,6 +185,24 @@ const MenuContainer = styled.div`
   min-width: 200px;
   border-radius: 8px;
 `;
+
+const ContentGroup: FC = ({ children, ...parameters }) => {
+  const isLargeScreen = useMediaQuery(`(min-width: ${MOBILE_FOLD}px`);
+
+  if (isLargeScreen) {
+    return (
+      <Group align="center" spacing="xl" {...parameters}>
+        {children}
+      </Group>
+    );
+  }
+
+  return (
+    <Stack align="center" spacing="xl" {...parameters}>
+      {children}
+    </Stack>
+  );
+};
 
 const CheckboxGroup = styled(Stack)`
   max-width: 220px;
