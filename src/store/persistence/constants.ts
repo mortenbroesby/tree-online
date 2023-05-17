@@ -7,6 +7,5 @@ export const QUERY_KEY = 's';
 /**
  * The current schema version of the state.
  * Useful to avoid issues when updating the schema
- * in a future version of tree.nathanfriend.io.
  */
 export const CURRENT_SAVED_STATE_SCHEMA_VERSION = '3';
