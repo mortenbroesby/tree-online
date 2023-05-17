@@ -5,7 +5,6 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { updateSource } from '../store/source/actions';
 import { SourceState } from '../store/source/types';
 import styled from 'styled-components';
-import './Input.scss';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   source: string;
@@ -47,21 +46,45 @@ export class Input extends React.Component<InputProps> {
 
   render() {
     return (
-      <div
-        ref={this.editorRef}
-        className={`input p-2 d-flex rounded-sm ${this.props.className}`}
-      >
+      <Container ref={this.editorRef}>
         <StyledEditor
           value={this.props.source}
           onValueChange={this.props.updateSource}
           highlight={this.highlight}
         />
-      </div>
+      </Container>
     );
   }
 }
 
-const StyledEditor = styled(Editor)``;
+const Container = styled.div`
+  background: #eaeaea;
+  padding: 12px;
+  width: 100%;
+  height: 100%;
+
+  font-family: 'Fira code', 'Fira Mono', source-code-pro, Menlo, Monaco,
+    Consolas, 'Courier New', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 14px;
+
+  &:focus-within {
+    box-shadow: 0 0 0.3rem rgba(115, 255, 175, 0.34);
+  }
+
+  textarea {
+    outline: none;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const StyledEditor = styled(Editor)`
+  width: 100%;
+  height: 100%;
+`;
 
 const mapStateToProps = ({ source }: { source: SourceState }) => ({
   source: source.source,

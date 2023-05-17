@@ -38,7 +38,7 @@ interface GenerateTreeOptions {
 const defaultOptions: GenerateTreeOptions = {
   charset: 'utf-8',
   trailingDirSlash: false,
-  rootDot: true,
+  rootDot: false,
   useIcon: false,
 };
 

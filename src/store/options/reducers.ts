@@ -11,7 +11,7 @@ import {
 const defaultState: OptionsState = {
   fancy: true,
   trailingSlash: true,
-  rootDot: true,
+  rootDot: false,
   useIcon: false,
 };
 

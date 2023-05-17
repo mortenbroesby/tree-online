@@ -1,7 +1,13 @@
 import { getSavedState } from '../persistence/saved-state';
-import { SourceActionTypes, SourceState, UPDATE_SOURCE } from './types';
+import {
+  CLEAR_SOURE,
+  UPDATE_SOURCE,
+  RESET_SOURCE,
+  SourceActionTypes,
+  SourceState,
+} from './types';
 
-const source = `
+export const DEFAULT_SOURCE = `
 Edit me to generate
   a
     nice
@@ -22,7 +28,7 @@ Edit me to generate
 `.trim();
 
 const defaultState: SourceState = {
-  source,
+  source: DEFAULT_SOURCE,
 };
 
 const getInitialState = () => {
@@ -40,6 +46,16 @@ export function sourceReducer(
 ): SourceState {
   switch (action.type) {
     case UPDATE_SOURCE:
+      return {
+        ...state,
+        source: action.source,
+      };
+    case CLEAR_SOURE:
+      return {
+        ...state,
+        source: action.source,
+      };
+    case RESET_SOURCE:
       return {
         ...state,
         source: action.source,

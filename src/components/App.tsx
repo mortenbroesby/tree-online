@@ -4,8 +4,10 @@ import { DeploymentStatus } from './DeploymentStatus';
 import Input from './Input';
 import Menu from './Menu';
 import Tree from './Tree';
+import ButtonGroup from './ButtonGroup';
 import { Group, Title } from '@mantine/core';
 import styled from 'styled-components';
+
 import TreeLogo from './tree-logo.png';
 
 const App = () => {
@@ -15,6 +17,7 @@ const App = () => {
         <SubContainer>
           <Logo src={TreeLogo} alt="Tree Online" />
           <Title size="h3">Tree Online</Title>
+          <ButtonGroup />
         </SubContainer>
       </Container>
 
