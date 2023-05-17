@@ -1,5 +1,5 @@
-import { SourceState } from '../index';
-import { SourceStatePlusVersion } from './AppStatePlusVersion';
+import { OptionsState } from '../index';
+import { OptionsStatePlusVersion } from './AppStatePlusVersion';
 import { CURRENT_SAVED_STATE_SCHEMA_VERSION, LS_KEY } from './constants';
 
 /**
@@ -7,7 +7,7 @@ import { CURRENT_SAVED_STATE_SCHEMA_VERSION, LS_KEY } from './constants';
  * If unsuccessful, returns `undefined`.
  */
 export function getSavedStateFromLocalStorage():
-  | SourceStatePlusVersion
+  | OptionsStatePlusVersion
   | undefined {
   const rawSavedState = localStorage.getItem(LS_KEY);
 
@@ -16,9 +16,12 @@ export function getSavedStateFromLocalStorage():
   }
 
   try {
-    const savedState = JSON.parse(rawSavedState) as SourceStatePlusVersion;
+    const savedState = JSON.parse(rawSavedState) as OptionsStatePlusVersion;
+
     if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
       return undefined;
+    } else {
+      console.log('Restoring options from local-storage');
     }
 
     delete savedState.version;
@@ -33,7 +36,7 @@ export function getSavedStateFromLocalStorage():
  * Saves the provided state to localStorage
  * @param state The state to save
  */
-export const saveStateToLocalStorage = (state: SourceState): void => {
+export const saveStateToLocalStorage = (state: OptionsState): void => {
   localStorage.setItem(
     LS_KEY,
     JSON.stringify({ ...state, version: CURRENT_SAVED_STATE_SCHEMA_VERSION }),

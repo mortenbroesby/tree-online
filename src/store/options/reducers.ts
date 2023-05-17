@@ -1,3 +1,4 @@
+import { getSavedState } from '../persistence/saved-state';
 import {
   OptionActionTypes,
   OptionsState,
@@ -14,7 +15,12 @@ const defaultState: OptionsState = {
   useIcon: false,
 };
 
-const initialState = defaultState;
+const getInitialState = () => {
+  const localStorageSourceState = getSavedState().localStorageState?.options;
+  return localStorageSourceState ?? defaultState;
+};
+
+const initialState = getInitialState();
 
 export function optionsReducer(
   state = initialState,

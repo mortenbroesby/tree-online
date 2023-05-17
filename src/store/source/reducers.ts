@@ -25,9 +25,14 @@ const defaultState: SourceState = {
   source,
 };
 
-const savedState = getSavedState();
+const getInitialState = () => {
+  const parameterSourceState = getSavedState().queryParamState;
+  const localStorageSourceState = getSavedState().localStorageState?.source;
 
-const initialState = savedState ? savedState : defaultState;
+  return parameterSourceState ?? localStorageSourceState ?? defaultState;
+};
+
+const initialState = getInitialState();
 
 export function sourceReducer(
   state = initialState,

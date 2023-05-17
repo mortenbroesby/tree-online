@@ -1,11 +1,10 @@
-import { AppState } from '../index';
-import { SourceStatePlusVersion } from './AppStatePlusVersion';
+import { AppState, SourceState } from '../index';
 import {
   getSavedStateFromLocalStorage,
   saveStateToLocalStorage,
 } from './local-storage';
 import {
-  getSavedStateFromQueryParam,
+  getSourceStateFromQueryParam,
   saveStateToQueryParam,
 } from './query-param';
 
@@ -14,12 +13,18 @@ import {
  * from localStorage or the query param
  * If unsuccessful (or no saved state found), returns undefined
  */
-export function getSavedState(): SourceStatePlusVersion | undefined {
+export function getSavedState(): {
+  queryParamState: SourceState | undefined;
+  localStorageState: AppState | undefined;
+} {
+  const queryParamState = getSourceStateFromQueryParam();
   const localStorageState = getSavedStateFromLocalStorage();
-  const queryParamState = getSavedStateFromQueryParam();
 
   // State in the query param takes precedence over localStorage
-  return queryParamState || localStorageState;
+  return {
+    queryParamState,
+    localStorageState,
+  };
 }
 
 /**
@@ -28,5 +33,5 @@ export function getSavedState(): SourceStatePlusVersion | undefined {
  */
 export const saveState = (state: AppState): void => {
   saveStateToQueryParam(state.source);
-  saveStateToLocalStorage(state.source);
+  saveStateToLocalStorage(state);
 };

@@ -12,7 +12,7 @@ import {
  * Retrieves the most recent saved state from the query param.
  * If unsuccessful, returns `undefined`.
  */
-export function getSavedStateFromQueryParam():
+export function getSourceStateFromQueryParam():
   | SourceStatePlusVersion
   | undefined {
   const rawSavedState = getParameterByName(QUERY_KEY);
@@ -23,8 +23,11 @@ export function getSavedStateFromQueryParam():
   try {
     const decompressedState = decompressJson(rawSavedState);
     const savedState = decompressedState as SourceStatePlusVersion;
+
     if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
       return undefined;
+    } else {
+      console.log('Restoring source from query parameters');
     }
 
     delete savedState.version;

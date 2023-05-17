@@ -18,7 +18,7 @@ export interface AppState {
   source: SourceState;
 }
 
-export type { SourceState };
+export type { SourceState, OptionsState };
 
 const getSource = (state: AppState) => state.source.source;
 
