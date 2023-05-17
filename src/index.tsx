@@ -12,6 +12,7 @@ import './third-party/JSONCrush';
 import './index.scss';
 
 import App from './components/App';
+
 import withClearCache from './components/ClearCache.tsx';
 
 const ClearCacheApp = withClearCache(App);

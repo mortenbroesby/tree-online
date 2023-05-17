@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DeploymentStatus } from './DeploymentStatus';
 import Input from './Input';
-import Menu from './Menu';
+import HiddenMenu from './HiddenMenu';
 import Tree from './Tree';
 import ResetButtonsGroup from './ResetButtonsGroup';
 import { Group, Title } from '@mantine/core';
@@ -14,14 +14,13 @@ import { MOBILE_FOLD } from '../constants';
 const App = () => {
   return (
     <AppContainer>
-      <Container>
-        <SubContainer>
-          <TitleContainer>
-            <Logo src={TreeLogo} alt="Tree Online" />
-            <MainTitle>Tree Online</MainTitle>
-          </TitleContainer>
-          <ResetButtonsGroup />
-        </SubContainer>
+      <Container spacing="xs">
+        <TitleContainer>
+          <Logo src={TreeLogo} alt="Tree Online" />
+          <MainTitle>Tree Online</MainTitle>
+        </TitleContainer>
+        <ResetButtonsGroup />
+        <HiddenMenu />
       </Container>
 
       <GridContainer>
@@ -42,8 +41,6 @@ const App = () => {
           View the source on Github
         </Link>
       </Footer>
-
-      <Menu />
     </AppContainer>
   );
 };
@@ -53,7 +50,6 @@ const AppContainer = styled.div`
   flex-direction: column;
   position: absolute;
   width: 100%;
-  min-height: 100vh;
   padding: 10px;
   padding-bottom: 80px;
   overflow: hidden;
@@ -63,32 +59,32 @@ const AppContainer = styled.div`
   }
 `;
 
-const TitleContainer = styled(Group)`
-  display: flex;
-  flex-wrap: nowrap;
-`;
-
-const MainTitle = styled(Title)`
-  font-size: 18px;
-  word-wrap: nowrap;
-  margin-right: 6px;
-`;
-
-const Container = styled.div`
-  flex-grow: 0;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  margin-bottom: 2px;
-`;
-
-const SubContainer = styled(Group)`
+const Container = styled(Group)`
   flex: 1;
   display: flex;
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
   margin-bottom: 4px;
+
+  @media (max-width: ${MOBILE_FOLD}px) {
+    margin-bottom: 12px;
+  }
+`;
+
+const TitleContainer = styled(Group)`
+  display: flex;
+  flex-wrap: nowrap;
+
+  @media (max-width: ${MOBILE_FOLD}px) {
+    flex: 1 100%;
+  }
+`;
+
+const MainTitle = styled(Title)`
+  font-size: 18px;
+  word-wrap: nowrap;
+  margin-right: 6px;
 `;
 
 const Footer = styled.div`
@@ -122,8 +118,8 @@ const Deployment = styled.p`
 `;
 
 const Logo = styled.img`
-  height: 32px;
-  width: 32px;
+  height: 26px;
+  width: 26px;
 `;
 
 const Link = styled.a`
@@ -144,6 +140,7 @@ const GridContainer = styled.div`
   grid-template-rows: 1fr 1fr;
   gap: 1rem;
   height: 100%;
+  min-height: 100vh;
 
   @media (min-width: ${MOBILE_FOLD}px) {
     grid-template-columns: 1fr 1fr;

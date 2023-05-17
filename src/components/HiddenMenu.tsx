@@ -25,7 +25,7 @@ import TipsAndTricksModalButton from './ModalButton';
 import ShareButtonsGroup from './ShareButtonsGroup';
 import { MOBILE_FOLD } from '../constants';
 
-const Menu: React.FC<{
+const HiddenMenu: React.FC<{
   tree: string;
   fancy: boolean;
   useIcon: boolean;
@@ -126,17 +126,15 @@ const Menu: React.FC<{
         </MenuContainer>
       </Modal>
 
-      <TopRightElement>
-        <BurgerContainer>
-          <ShareButtonsGroup />
+      <BurgerContainer>
+        <ShareButtonsGroup />
 
-          <Burger
-            opened={opened}
-            onClick={open}
-            aria-label={opened ? 'Close navigation' : 'Open navigation'}
-          />
-        </BurgerContainer>
-      </TopRightElement>
+        <Burger
+          opened={opened}
+          onClick={open}
+          aria-label={opened ? 'Close navigation' : 'Open navigation'}
+        />
+      </BurgerContainer>
     </>
   );
 };
@@ -186,12 +184,15 @@ const ButtonGroup = styled(Stack)`
 
 const BurgerContainer = styled(Group)`
   padding: 12px;
-`;
+  margin-left: auto;
 
-const TopRightElement = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
+  @media (max-width: ${MOBILE_FOLD}px) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top: 26px;
+    padding-right: 28px;
+  }
 `;
 
 const mapStateToProps = (state: AppState) => ({
@@ -213,4 +214,4 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(HiddenMenu);

@@ -5,7 +5,6 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { updateSource } from '../store/source/actions';
 import { SourceState } from '../store/source/types';
 import styled from 'styled-components';
-import { MOBILE_FOLD } from '../constants';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   source: string;
