@@ -12,13 +12,20 @@ import './third-party/JSONCrush';
 import './index.scss';
 
 import App from './components/App';
+import withClearCache from './components/ClearCache.tsx';
+
+const ClearCacheApp = withClearCache(App);
+
+function AppWithCache() {
+  return <ClearCacheApp />;
+}
 
 const store = configureStore();
 
 render(
   <MantineProvider withGlobalStyles withNormalizeCSS>
     <Provider store={store}>
-      <App />
+      <AppWithCache />
     </Provider>
   </MantineProvider>,
   document.getElementById('root'),

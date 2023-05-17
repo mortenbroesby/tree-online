@@ -40,8 +40,11 @@
     "styled-components": "^6.0.0-rc.1"
   },
   "scripts": {
+    "update-meta": "node ./scripts/update-build.js",
+    "prestart": "yarn update-meta",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn update-meta",
+    "prebuild": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tslint": "tslint -c tslint.json -p .",
@@ -80,5 +83,6 @@
   },
   "resolutions": {
     "styled-components": "^5"
-  }
+  },
+  "buildDate": 1684335133159
 }
