@@ -22,11 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Clear Cache
-        run: |
-          echo "Clearing cache"
-          curl -X PURGE "https://$GITHUB_REPOSITORY.$GITHUB_SERVER_URL/index.html"
-
       - name: Setup Node.js and Yarn
         uses: actions/setup-node@v2
         with:
