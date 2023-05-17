@@ -26,8 +26,6 @@ export function getSourceStateFromQueryParam():
 
     if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
       return undefined;
-    } else {
-      console.log('Restoring source from query parameters');
     }
 
     delete savedState.version;

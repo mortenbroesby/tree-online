@@ -20,8 +20,6 @@ export function getSavedStateFromLocalStorage():
 
     if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
       return undefined;
-    } else {
-      console.log('Restoring options from local-storage');
     }
 
     delete savedState.version;
