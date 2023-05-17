@@ -5,7 +5,7 @@ import { AppState } from '../store';
 import { Button } from '@mantine/core';
 import { clearSource, resetSource } from '../store/source/actions';
 
-const ButtonGroup: React.FC<{
+const ResetButtonsGroup: React.FC<{
   source: string;
   clearSource: () => void;
   resetSource: () => void;
@@ -13,18 +13,29 @@ const ButtonGroup: React.FC<{
   const onClearSource = useCallback(() => {
     props.clearSource();
   }, [props]);
+
   const onResetSource = useCallback(() => {
     props.resetSource();
   }, [props]);
 
   return (
     <>
-      <Button color="orange" onClick={() => onClearSource()}>
-        Clear
+      <Button
+        color="blue"
+        variant="light"
+        onClick={() => onResetSource()}
+        compact
+      >
+        Use example
       </Button>
 
-      <Button color="blue" onClick={() => onResetSource()}>
-        Reset
+      <Button
+        color="blue"
+        variant="light"
+        onClick={() => onClearSource()}
+        compact
+      >
+        Clear text
       </Button>
     </>
   );
@@ -43,4 +54,4 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetButtonsGroup);

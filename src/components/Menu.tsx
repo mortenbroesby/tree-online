@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useCallback, FC } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import React, { useCallback, FC } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { AppState, getTree } from '../store';
@@ -23,12 +22,8 @@ import {
   updateRootDot,
 } from '../store/options/actions';
 import { MOBILE_FOLD } from './App';
-import ModalButton from './ModalButton';
-
-const COPY = 'Copy to clipboard';
-const SHARE = 'Share URL';
-
-const BUTTON_TEXT_TIMEOUT = 1200;
+import TipsAndTricksModalButton from './ModalButton';
+import ShareButtonsGroup from './ShareButtonsGroup';
 
 const Menu: React.FC<{
   tree: string;
@@ -41,20 +36,7 @@ const Menu: React.FC<{
   updateTrailingSlash: (newValue: boolean) => void;
   updateRootDot: (newValue: boolean) => void;
 }> = props => {
-  const [copyButtonText, setCopyButtonText] = useState(COPY);
-  const [shareButtonText, setShareButtonText] = useState(SHARE);
-
   const [opened, { open, close }] = useDisclosure(false);
-
-  const onCopy = useCallback(() => {
-    setCopyButtonText('Tree was copied!');
-    setTimeout(() => setCopyButtonText(COPY), BUTTON_TEXT_TIMEOUT);
-  }, []);
-
-  const onShare = useCallback(() => {
-    setShareButtonText('URL was copied!');
-    setTimeout(() => setShareButtonText(SHARE), BUTTON_TEXT_TIMEOUT);
-  }, []);
 
   const onFancyChanged = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,28 +110,16 @@ const Menu: React.FC<{
             <Divider orientation="vertical" variant="dashed" />
 
             <ButtonGroup>
-              <Stack
-                spacing="sm"
-                role="group"
-                aria-label="Copy and share buttons"
-              >
-                <CopyToClipboard text={props.tree} onCopy={onCopy}>
-                  <Button>{copyButtonText}</Button>
-                </CopyToClipboard>
-
-                <CopyToClipboard text={window.location.href} onCopy={onShare}>
-                  <Button variant="light">{shareButtonText}</Button>
-                </CopyToClipboard>
-              </Stack>
-
-              <Divider orientation="horizontal" variant="dashed" />
+              <TipsAndTricksModalButton />
 
               <FullWidthLink
                 href="https://github.com/mortenbroesby/tree-online#what-is-this"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button color="orange">Read more here</Button>
+                <Button color="blue" variant="outline">
+                  Read more here
+                </Button>
               </FullWidthLink>
             </ButtonGroup>
           </ContentGroup>
@@ -158,7 +128,8 @@ const Menu: React.FC<{
 
       <TopRightElement>
         <BurgerContainer>
-          <ModalButton />
+          <ShareButtonsGroup />
+
           <Burger
             opened={opened}
             onClick={open}

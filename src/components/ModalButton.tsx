@@ -11,7 +11,7 @@ lib # Example
 Becomes:
 ├─ lib/ # Example`;
 
-export default function ModalButton() {
+export default function TipsAndTricksModalButton() {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -30,8 +30,8 @@ export default function ModalButton() {
         </Stack>
       </Modal>
 
-      <Button variant="subtle" onClick={open}>
-        Tips and Tricks
+      <Button color="blue" variant="light" onClick={open}>
+        Tips and tricks
       </Button>
     </>
   );
