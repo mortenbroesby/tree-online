@@ -9,4 +9,4 @@ export const QUERY_KEY = 's';
  * Useful to avoid issues when updating the schema
  * in a future version of tree.nathanfriend.io.
  */
-export const CURRENT_SAVED_STATE_SCHEMA_VERSION = '1';
+export const CURRENT_SAVED_STATE_SCHEMA_VERSION = '2';

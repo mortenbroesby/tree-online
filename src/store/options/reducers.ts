@@ -1,4 +1,3 @@
-import { getSavedState } from '../persistence/saved-state';
 import {
   OptionActionTypes,
   OptionsState,
@@ -15,9 +14,7 @@ const defaultState: OptionsState = {
   useIcon: false,
 };
 
-const savedState = getSavedState();
-
-const initialState = savedState ? savedState.options : defaultState;
+const initialState = defaultState;
 
 export function optionsReducer(
   state = initialState,

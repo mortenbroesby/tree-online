@@ -27,7 +27,7 @@ const defaultState: SourceState = {
 
 const savedState = getSavedState();
 
-const initialState = savedState ? savedState.source : defaultState;
+const initialState = savedState ? savedState : defaultState;
 
 export function sourceReducer(
   state = initialState,

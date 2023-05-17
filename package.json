@@ -27,6 +27,7 @@
     "lodash.defaultsdeep": "4.6.1",
     "lodash.flattendeep": "4.4.0",
     "lodash.last": "3.0.0",
+    "lz-string": "^1.5.0",
     "moment": "2.29.1",
     "react": "16.14.0",
     "react-app-polyfill": "1.0.6",
