@@ -1,5 +1,6 @@
 .input {
-  background: #303030;
+  background: #eaeaea;
+  padding: 12px;
 
   font-family: 'Fira code', 'Fira Mono', source-code-pro, Menlo, Monaco,
   Consolas, 'Courier New', monospace;
@@ -17,12 +18,3 @@
   }
 }
 
-@media (prefers-color-scheme: light) {
-  .input {
-    background: #eaeaea;
-
-    &:focus-within {
-      box-shadow: 0 0 0.3rem rgba(78, 172, 118, 0.57);
-    }
-  }
-}
