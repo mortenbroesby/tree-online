@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/tree-online/precache-manifest.d009f17d287a5a317db7d28ad722a5d1.js"
+  "/tree-online/precache-manifest.a1a77a95b6a30700b2cb6961a367deb9.js"
 );
 
 self.addEventListener('message', (event) => {
