@@ -171,8 +171,8 @@ const TreeDiv = styled.div`
   overflow: hidden;
 
   @media (min-width: ${MOBILE_FOLD}px) {
-    height: 50%;
-    min-height: 50%;
+    height: 100%;
+    min-height: 100%;
   }
 `;
 
