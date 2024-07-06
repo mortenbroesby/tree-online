@@ -58,9 +58,9 @@ export const splitInput = (input: string): FileStructure[] => {
   let lines: string[] = input.match(newlineSplitterRegex) || [];
 
   // filter out empty lines
-  lines = lines.filter(line => !onlyWhitespaceRegex.test(line)) as string[];
+  lines = lines.filter((line) => !onlyWhitespaceRegex.test(line)) as string[];
 
-  return lines.map(line => {
+  return lines.map((line) => {
     const matchResult = leadingWhitespaceAndBulletRegex.exec(line);
 
     if (!matchResult) {

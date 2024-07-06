@@ -35,7 +35,7 @@ const HiddenMenu: React.FC<{
   updateUseIcon: (newValue: boolean) => void;
   updateTrailingSlash: (newValue: boolean) => void;
   updateRootDot: (newValue: boolean) => void;
-}> = props => {
+}> = (props) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const onFancyChanged = useCallback(

@@ -14,7 +14,7 @@ interface GenerateTreeOptions {
    * Which set of characters to use when
    * rendering directory lines
    */
-  charset?: 'ascii' | 'utf-8';
+  charset?: 'ascii' | 'utf-8' | 'fancy';
 
   /**
    * Whether or not to append trailing slashes
@@ -55,7 +55,7 @@ export const generateTree = (
 
   const asciiLine = getAsciiLine(structure, treeOptions);
 
-  const asciiChildren = structure.children.map(child => {
+  const asciiChildren = structure.children.map((child) => {
     return generateTree(child, options);
   }) as RecursiveArray<string>;
 
@@ -64,7 +64,7 @@ export const generateTree = (
 
   // Remove null entries. Should only occur for the very first node
   // when `options.rootDot === false`
-  const cleanedTree = flattenedTree.filter(line => line != null).join('\n');
+  const cleanedTree = flattenedTree.filter((line) => line != null).join('\n');
   return cleanedTree;
 };
 
@@ -123,7 +123,7 @@ const getName = (
   const useIcon = options?.useIcon ?? false;
 
   // Optionally append a trailing slash
-  nameChunks = nameChunks.map(chunk => {
+  nameChunks = nameChunks.map((chunk) => {
     const withMarkdownLinks = convertHTMLLinkToMarkdown(chunk);
 
     const withCommentsAdjusted = adjustComments({

@@ -1,6 +1,6 @@
 # [tree-online](https://mortenbroesby.github.io/tree-online)
 
-## Disclaimer 
+## Disclaimer
 
 All original credits goes to Nathan Friend. [tree.nathanfriend.io](https://gitlab.com/nfriend/tree-online)
 
@@ -50,7 +50,7 @@ Some other technologies this project uses:
 - [JSONCrush](https://github.com/KilledByAPixel/JSONCrush) for efficiently saving the application's state in the URL
 - [Bootstrap](https://getbootstrap.com/). In particular, its [responsive flex utilities](https://getbootstrap.com/docs/4.4/utilities/flex/)
 - [Moment.js](https://momentjs.com/) and a few functions from [Lodash](https://lodash.com/)
-- [Jest](https://jestjs.io/), [TSLint](https://palantir.github.io/tslint/), and [Prettier](https://prettier.io/) for code quality
+- [Jest](https://jestjs.io/) and [Prettier](https://prettier.io/) for code quality
 - [Renovate Bot](https://renovate.whitesourcesoftware.com/) for automatically keeping dependencies up-to-date
 
 ### `tree` implementation

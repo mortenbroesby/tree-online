@@ -30,7 +30,7 @@ export const getTree = createSelector(
     const parsedInput = parseInput(source);
 
     const generatedTree = generateTree(parsedInput, {
-      charset: options.fancy ? 'utf-8' : 'ascii',
+      charset: options.fancy ? 'fancy' : 'ascii',
       trailingDirSlash: options.trailingSlash,
       rootDot: options.rootDot,
       useIcon: options.useIcon,

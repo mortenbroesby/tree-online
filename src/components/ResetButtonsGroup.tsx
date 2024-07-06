@@ -10,7 +10,7 @@ const ResetButtonsGroup: React.FC<{
   source: string;
   clearSource: () => void;
   resetSource: () => void;
-}> = props => {
+}> = (props) => {
   const onClearSource = useCallback(() => {
     props.clearSource();
   }, [props]);

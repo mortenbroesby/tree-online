@@ -11,10 +11,10 @@ import styled from 'styled-components';
 import TreeLogo from './tree-logo.png';
 import { MOBILE_FOLD } from '../constants';
 
-const App = () => {
+export const App = () => {
   return (
     <AppContainer>
-      <Container spacing="xs">
+      <Container>
         <TitleContainer>
           <Logo src={TreeLogo} alt="Tree Online" />
           <MainTitle>Tree Online</MainTitle>

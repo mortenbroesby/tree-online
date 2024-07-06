@@ -15,7 +15,7 @@ const BUTTON_TEXT_TIMEOUT = 1200;
 
 const ShareButtonsGroup: React.FC<{
   tree: string;
-}> = props => {
+}> = (props) => {
   const [copyButtonText, setCopyButtonText] = useState(COPY);
   const [shareButtonText, setShareButtonText] = useState(SHARE);
 

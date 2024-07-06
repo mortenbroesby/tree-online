@@ -42,15 +42,18 @@ export class Input extends React.Component<InputProps> {
    * Applies no syntax highlighting.
    * Required for TypeScript compilation.
    */
-  highlight = (code: string) => <React.Fragment>{code}</React.Fragment>;
+  highlight = (code: string) => {
+    return <React.Fragment>{code}</React.Fragment>;
+  };
 
   render() {
     return (
       <Container ref={this.editorRef}>
-        <StyledEditor
+        <Editor
           value={this.props.source}
           onValueChange={this.props.updateSource}
           highlight={this.highlight}
+          padding={12}
         />
       </Container>
     );
@@ -92,8 +95,6 @@ const Container = styled.div`
     min-width: 100% !important;
   }
 `;
-
-const StyledEditor = styled(Editor)``;
 
 const mapStateToProps = ({ source }: { source: SourceState }) => ({
   source: source.source,

@@ -1,6 +1,3 @@
-/* tslint:disable */
-/* eslint-disable */
-
 /** From https://stackoverflow.com/a/901144/1063392 */
 export function getParameterByName(name, url) {
   if (!url) url = window.location.href;

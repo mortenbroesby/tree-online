@@ -30,4 +30,10 @@ export const LINE_STRINGS: { [charset: string]: LineStringSet } = {
     DIRECTORY: '│  ',
     EMPTY: '   ',
   },
+  fancy: {
+    CHILD: '├─ ',
+    LAST_CHILD: '╰─ ',
+    DIRECTORY: '│  ',
+    EMPTY: '   ',
+  },
 };

@@ -24,8 +24,7 @@ export default function TipsAndTricksModalButton() {
         size="auto"
       >
         <Stack align="center">
-          <Text weight="bold">Tips and tricks</Text>
-
+          <Text>Tips and tricks</Text>
           <Code block>{codeForPreviousDemo}</Code>
         </Stack>
       </Modal>
