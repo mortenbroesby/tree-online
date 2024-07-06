@@ -36,7 +36,7 @@ module.exports = {
     { value: "revert", name: "revert:   Reverts a previous commit" },
   ],
   // Skip questions you do not want to ask
-  skipQuestions: ["body", "footer"],
+  skipQuestions: ["body", "footer", "breaking", "issues"],
   // limit subject length
   subjectLimit: 100,
 };
