@@ -61,6 +61,8 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+    'no-constant-condition': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   overrides: [
     {

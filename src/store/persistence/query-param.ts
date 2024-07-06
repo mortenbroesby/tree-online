@@ -57,23 +57,21 @@ export const saveStateToQueryParam = (state: SourceState): void => {
 
 export function compressJson(json: Record<string, unknown>): string {
   const jsonString = JSON.stringify(json);
-
   return compressToEncodedURIComponent(jsonString);
 }
 
-export function decompressJson(compressed: string) {
+export function decompressJson(compressed: string): unknown {
   const decompressedString = decompressFromEncodedURIComponent(compressed);
-
   return JSON.parse(decompressedString ?? '');
 }
 
 export function crushJson(json: Record<string, unknown>): string {
   const jsonString = JSON.stringify(json);
-
   return JSONCrush(jsonString);
 }
 
-export function unCrushJson(compressed: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function unCrushJson(compressed: string): any {
   const decompressedString = JSONUncrush(compressed);
 
   return JSON.parse(decompressedString ?? '');

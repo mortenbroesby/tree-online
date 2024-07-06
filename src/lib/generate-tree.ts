@@ -65,7 +65,10 @@ export const generateTree = (
 
   // Remove null entries. Should only occur for the very first node
   // when `options.rootDot === false`
-  const cleanedTree = flattenedTree.filter((line) => line != null).join('\n');
+  const cleanedTree = flattenedTree
+    .filter((line: any) => line != null)
+    .join('\n');
+
   return cleanedTree;
 };
 
@@ -79,7 +82,7 @@ const getAsciiLine = (
   structure: FileStructure,
   options: GenerateTreeOptions,
 ): string | null => {
-  const lines = LINE_STRINGS[options.charset as string];
+  const lines: any = LINE_STRINGS[options.charset as string];
 
   // Special case for the root element
   if (!structure.parent) {

@@ -32,5 +32,6 @@
     "src/environment.d.ts",
     "src/**/*.ts",
   ],
+  "exclude": ["node_modules", "dist", "build"],
   "references": [{ "path": "./tsconfig.node.json" }],
 }
