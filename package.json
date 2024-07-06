@@ -21,8 +21,10 @@
     "update-meta": "pnpm tsx scripts/update-build.ts",
     "setup": "git init && husky install && npx playwright install",
     "format": "prettier src/**/*.{ts,tsx} --write",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "eslint": "NODE_OPTIONS='--max-old-space-size=8192' eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "eslint:fix": "NODE_OPTIONS='--max-old-space-size=8192' eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "prepush:eslint": "NODE_OPTIONS='--max-old-space-size=8192' eslint --cache --quiet --ext=jsx --ext=js --ext=tsx --ext=ts --fix",
+    "prepush:prettier": "prettier --write",
     "predev": "pnpm update-meta",
     "dev": "vite",
     "start": "pnpm dev",
@@ -111,6 +113,7 @@
     "autoprefixer": "^10.4.17",
     "child_process": "^1.0.2",
     "commitizen": "^4.3.0",
+    "concurrently": "^8.2.2",
     "cz-conventional-changelog": "^3.3.0",
     "cz-customizable": "^7.0.0",
     "enzyme": "^3.11.0",
@@ -153,10 +156,15 @@
       "commit-msg": "npx --no-install commitlint --edit \"$1\""
     }
   },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
+  "lint-prepush": {
+    "base": "main",
+    "tasks": {
+      "src/**/*.{ts,tsx,js,jsx}": {
+        "concurrent": [
+          "pnpm prepush:eslint",
+          "pnpm prepush:prettier"
+        ]
+      }
+    }
   }
 }
