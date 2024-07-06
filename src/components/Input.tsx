@@ -1,31 +1,19 @@
-import React, { createRef, RefObject } from 'react';
-import { connect } from 'react-redux';
+import { useAtom } from 'jotai';
+import React, { useEffect, useRef } from 'react';
 import Editor from 'react-simple-code-editor';
-import { bindActionCreators, Dispatch } from 'redux';
 import styled from 'styled-components';
 
-import { updateSource } from '../store/source/actions';
-import { SourceState } from '../store/source/types';
+import { sourceAtom } from '../store';
 
-interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  source: string;
-  updateSource: typeof updateSource;
-}
+interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
-export class Input extends React.Component<InputProps> {
-  editorRef: RefObject<HTMLDivElement>;
+const Input: React.FC<InputProps> = () => {
+  const [source, setSource] = useAtom(sourceAtom);
+  const editorRef = useRef<HTMLDivElement>(null);
 
-  constructor(props: Readonly<InputProps>) {
-    super(props);
-    this.editorRef = createRef();
-  }
-
-  componentDidMount() {
-    // Ideally, it would be possible to just call
-    // a .focus() method on the Editor instance instead:
-    // https://github.com/satya164/react-simple-code-editor/issues/25
-    if (this.editorRef.current) {
-      const editorTextarea = this.editorRef.current.querySelector('textarea');
+  useEffect(() => {
+    if (editorRef.current) {
+      const editorTextarea = editorRef.current.querySelector('textarea');
       if (editorTextarea) {
         // focus the code editor
         editorTextarea.focus();
@@ -37,29 +25,27 @@ export class Input extends React.Component<InputProps> {
         );
       }
     }
-  }
+  }, []);
 
   /**
    * Applies no syntax highlighting.
    * Required for TypeScript compilation.
    */
-  highlight = (code: string) => {
+  const highlight = (code: string) => {
     return <React.Fragment>{code}</React.Fragment>;
   };
 
-  render() {
-    return (
-      <Container ref={this.editorRef}>
-        <Editor
-          value={this.props.source}
-          onValueChange={this.props.updateSource}
-          highlight={this.highlight}
-          padding={12}
-        />
-      </Container>
-    );
-  }
-}
+  return (
+    <Container ref={editorRef}>
+      <Editor
+        value={source}
+        onValueChange={setSource}
+        highlight={highlight}
+        padding={12}
+      />
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -97,11 +83,4 @@ const Container = styled.div`
   }
 `;
 
-const mapStateToProps = ({ source }: { source: SourceState }) => ({
-  source: source.source,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ updateSource }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default Input;

@@ -1,6 +1,5 @@
 import { Group, Title } from '@mantine/core';
 import React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { MOBILE_FOLD } from '../constants';
@@ -189,4 +188,4 @@ const FullWidthHeightTree = styled(Tree)`
   height: 100%;
 `;
 
-export default connect()(App);
+export default App;

@@ -1,6 +1,11 @@
 import last from 'lodash.last';
 
-import { FileStructure } from './FileStructure';
+interface FileStructure {
+  name: string;
+  children: FileStructure[];
+  indentCount: number;
+  parent: FileStructure | null;
+}
 
 /**
  * Matches the whitespace in front of a file name.
@@ -23,6 +28,12 @@ const newlineSplitterRegex = /[^\r\n]+/g;
  * @param input The plain-text input from the user
  */
 export const parseInput = (input: string): FileStructure => {
+  if (typeof input !== 'string') {
+    throw new TypeError(
+      `Expected input to be a string, but got ${typeof input}`,
+    );
+  }
+
   const structures = splitInput(input);
 
   const root: FileStructure = {
@@ -55,14 +66,21 @@ export const parseInput = (input: string): FileStructure => {
  * Used internally as part of `parseInput`.
  * @param input The plain-text input from the user
  */
-export const splitInput = (input: string): FileStructure[] => {
+export const splitInput = (input: string = ''): FileStructure[] => {
+  if (typeof input !== 'string') {
+    throw new TypeError(
+      `Expected input to be a string, but got ${typeof input}`,
+    );
+  }
+
   let lines: string[] = input.match(newlineSplitterRegex) || [];
 
   // filter out empty lines
   lines = lines.filter((line) => !onlyWhitespaceRegex.test(line)) as string[];
 
   return lines.map((line) => {
-    const matchResult: any = leadingWhitespaceAndBulletRegex.exec(line);
+    const matchResult: RegExpExecArray | null =
+      leadingWhitespaceAndBulletRegex.exec(line);
 
     if (!matchResult) {
       throw new Error(

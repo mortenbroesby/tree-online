@@ -31,7 +31,7 @@ function withClearCache<P extends object>(
         const isLocal = process.env.NODE_ENV === 'development';
 
         const metaUrl = isLocal
-          ? './public/meta.json'
+          ? './meta.json'
           : process.env.REACT_APP_PUBLIC_URL + '/meta.json';
 
         try {
