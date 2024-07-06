@@ -112,6 +112,7 @@
     "child_process": "^1.0.2",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^7.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^8.56.0",
