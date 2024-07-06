@@ -1,6 +1,7 @@
 {
   "name": "tree-online",
   "version": "0.1.1",
+  "buildDate": 1720300849306,
   "description": "An online tree-like utility for generating ASCII folder structure diagrams",
   "homepage": "https://mortenbroesby.github.io/tree-online",
   "keywords": [
@@ -38,7 +39,7 @@
     "postbuild": "pnpm tsx scripts/post-build.ts",
     "preview": "vite preview",
     "commitlint": "commitlint --edit",
-    "commitizen": "exec < /dev/tty && git cz --hook || true",
+    "commit": "cz",
     "depcheck:remove": "pnpm dlx depcheck --skip-missing"
   },
   "dependencies": {
@@ -136,8 +137,12 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "cz-conventional-changelog"
     }
   },
-  "buildDate": 1720300849306
+  "husky": {
+    "hooks": {
+      "commit-msg": "npx --no-install commitlint --edit \"$1\""
+    }
+  }
 }
