@@ -63,6 +63,7 @@ module.exports = {
     ],
     'no-constant-condition': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   overrides: [
     {

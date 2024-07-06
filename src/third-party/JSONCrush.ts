@@ -127,7 +127,7 @@ export function JSONCrush(string: string): string {
   // prefer replacing with characters that will not be escaped by encodeURIComponent
   const unescapedCharacters = `-_.!~*'()`;
   // eslint-disable-next-line prettier/prettier
-  for (let i = 127; --i;) {
+  for (let i = 127; --i; ) {
     if (
       (i >= 48 && i <= 57) || // 0-9
       (i >= 65 && i <= 90) || // A-Z
@@ -201,7 +201,7 @@ export function JSONCrushSwap(string: string, forward = 1): string {
     for (let i = 0; i < swapGroups.length; ++i)
       string = Swap(string, swapGroups[i]);
   // eslint-disable-next-line prettier/prettier
-  for (let i = swapGroups.length; i--;) string = Swap(string, swapGroups[i]);
+  for (let i = swapGroups.length; i--; ) string = Swap(string, swapGroups[i]);
 
   return string;
 }
