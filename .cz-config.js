@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   types: [
     { value: "feat", name: "feat:     A new feature" },
@@ -35,8 +33,19 @@ module.exports = {
     },
     { value: "revert", name: "revert:   Reverts a previous commit" },
   ],
-  // Skip questions you do not want to ask
-  skipQuestions: ["body", "footer", "breaking", "issues"],
-  // limit subject length
-  subjectLimit: 100,
+
+  messages: {
+    type: "Select the type of change that you're committing:",
+    scope: "\nDenote the SCOPE of this change (optional):",
+    customScope: "Denote the SCOPE of this change:",
+    subject: "Write a SHORT, IMPERATIVE tense description of the change:\n",
+    body: 'Provide a LONGER description of the change (optional). Use "|" to break new line:\n',
+    breaking: "List any BREAKING CHANGES (optional):\n",
+    confirmCommit: "Are you sure you want to proceed with the commit above?",
+  },
+
+  scopes: [{ name: "infra" }, { name: "app" }, { name: "docs" }],
+  allowCustomScopes: true,
+
+  skipQuestions: ["footer"],
 };
