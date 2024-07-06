@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AppState, getTree } from '../store';
 import styled from 'styled-components';
+
+import { AppState, getTree } from '../store';
 import './Tree.scss';
 
 interface TreeProps extends React.HtmlHTMLAttributes<HTMLDivElement> {

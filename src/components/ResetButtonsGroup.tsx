@@ -1,10 +1,11 @@
+import { Button, Group } from '@mantine/core';
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { AppState } from '../store';
-import { Button, Group } from '@mantine/core';
-import { clearSource, resetSource } from '../store/source/actions';
 import styled from 'styled-components';
+
+import { AppState } from '../store';
+import { clearSource, resetSource } from '../store/source/actions';
 
 const ResetButtonsGroup: React.FC<{
   source: string;

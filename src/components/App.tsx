@@ -1,15 +1,16 @@
+import { Group, Title } from '@mantine/core';
 import React from 'react';
 import { connect } from 'react-redux';
-import { DeploymentStatus } from './DeploymentStatus';
-import Input from './Input';
-import HiddenMenu from './HiddenMenu';
-import Tree from './Tree';
-import ResetButtonsGroup from './ResetButtonsGroup';
-import { Group, Title } from '@mantine/core';
 import styled from 'styled-components';
 
-import TreeLogo from './tree-logo.png';
 import { MOBILE_FOLD } from '../constants';
+
+import { DeploymentStatus } from './DeploymentStatus';
+import HiddenMenu from './HiddenMenu';
+import Input from './Input';
+import ResetButtonsGroup from './ResetButtonsGroup';
+import Tree from './Tree';
+import TreeLogo from './tree-logo.png';
 
 export const App = () => {
   return (

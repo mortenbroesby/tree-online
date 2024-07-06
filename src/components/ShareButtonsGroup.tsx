@@ -1,12 +1,13 @@
-import React, { FC, useCallback, useState } from 'react';
+import { Button, Group } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import React, { useCallback, useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { AppState, getTree } from '../store';
-import { Button, Group } from '@mantine/core';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import { useMediaQuery } from '@mantine/hooks';
 import styled from 'styled-components';
+
 import { MOBILE_FOLD } from '../constants';
+import { AppState, getTree } from '../store';
 
 const COPY = 'Copy output';
 const SHARE = 'Share URL';
@@ -46,7 +47,7 @@ const ShareButtonsGroup: React.FC<{
   );
 };
 
-const ButtonContainer: FC = ({ children, ...parameters }) => {
+const ButtonContainer = ({ children, ...parameters }) => {
   const isLargeScreen = useMediaQuery(`(min-width: ${MOBILE_FOLD}px`);
 
   if (isLargeScreen) {

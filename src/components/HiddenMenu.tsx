@@ -1,11 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, FC } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { AppState, getTree } from '../store';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Burger } from '@mantine/core';
 import {
+  Burger,
   Button,
   Checkbox,
   Text,
@@ -14,16 +8,23 @@ import {
   Modal,
   Divider,
 } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import React, { useCallback } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import styled from 'styled-components';
+
+import { MOBILE_FOLD } from '../constants';
+import { AppState, getTree } from '../store';
 import {
   updateFancy,
   updateUseIcon,
   updateTrailingSlash,
   updateRootDot,
 } from '../store/options/actions';
+
 import TipsAndTricksModalButton from './ModalButton';
 import ShareButtonsGroup from './ShareButtonsGroup';
-import { MOBILE_FOLD } from '../constants';
 
 const HiddenMenu: React.FC<{
   tree: string;
@@ -154,7 +155,7 @@ const MenuContainer = styled.div`
   border-radius: 8px;
 `;
 
-const ContentGroup: FC = ({ children, ...parameters }) => {
+const ContentGroup = ({ children, ...parameters }) => {
   const isLargeScreen = useMediaQuery(`(min-width: ${MOBILE_FOLD}px`);
 
   if (isLargeScreen) {

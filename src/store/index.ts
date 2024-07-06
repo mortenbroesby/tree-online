@@ -1,7 +1,9 @@
 import { combineReducers, createStore } from 'redux';
 import { createSelector } from 'reselect';
+
 import { generateTree } from '../lib/generate-tree';
 import { parseInput } from '../lib/parse-input';
+
 import { optionsReducer } from './options/reducers';
 import { OptionsState } from './options/types';
 import { saveState } from './persistence/saved-state';

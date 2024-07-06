@@ -2,9 +2,10 @@ import React, { createRef, RefObject } from 'react';
 import { connect } from 'react-redux';
 import Editor from 'react-simple-code-editor';
 import { bindActionCreators, Dispatch } from 'redux';
+import styled from 'styled-components';
+
 import { updateSource } from '../store/source/actions';
 import { SourceState } from '../store/source/types';
-import styled from 'styled-components';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   source: string;

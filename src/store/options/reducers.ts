@@ -1,4 +1,5 @@
 import { getSavedState } from '../persistence/saved-state';
+
 import {
   OptionActionTypes,
   OptionsState,

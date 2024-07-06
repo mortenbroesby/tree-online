@@ -30,6 +30,7 @@
     "src/vite-env.d.ts",
     "src/reset.d.ts",
     "src/environment.d.ts",
+    "src/**/*.ts",
   ],
   "references": [{ "path": "./tsconfig.node.json" }],
 }

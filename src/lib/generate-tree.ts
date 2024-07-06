@@ -2,6 +2,7 @@ import { RecursiveArray } from 'lodash';
 import defaultsDeep from 'lodash.defaultsdeep';
 import flattenDeep from 'lodash.flattendeep';
 import last from 'lodash.last';
+
 import { FileStructure } from './FileStructure';
 import { LINE_STRINGS } from './line-strings';
 

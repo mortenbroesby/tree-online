@@ -1,4 +1,5 @@
 import last from 'lodash.last';
+
 import { FileStructure } from './FileStructure';
 
 /**

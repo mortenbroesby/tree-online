@@ -1,4 +1,5 @@
 import { AppState } from '../index';
+
 import { AppStatePlusVersion } from './AppStatePlusVersion';
 import { CURRENT_SAVED_STATE_SCHEMA_VERSION, LS_KEY } from './constants';
 

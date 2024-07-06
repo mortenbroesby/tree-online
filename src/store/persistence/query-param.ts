@@ -1,12 +1,14 @@
-import { SourceState } from '..';
-import { SourceStatePlusVersion } from './AppStatePlusVersion';
-import { getParameterByName } from '../../third-party/get-parameter-by-name';
-import { JSONCrush, JSONUncrush } from '../../third-party/JSONCrush';
-import { CURRENT_SAVED_STATE_SCHEMA_VERSION, QUERY_KEY } from './constants';
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from 'lz-string';
+
+import { SourceState } from '..';
+import { getParameterByName } from '../../third-party/get-parameter-by-name';
+import { JSONCrush, JSONUncrush } from '../../third-party/JSONCrush';
+
+import { SourceStatePlusVersion } from './AppStatePlusVersion';
+import { CURRENT_SAVED_STATE_SCHEMA_VERSION, QUERY_KEY } from './constants';
 
 /**
  * Retrieves the most recent saved state from the query param.
@@ -59,7 +61,7 @@ export function compressJson(json: Record<string, unknown>): string {
   return compressToEncodedURIComponent(jsonString);
 }
 
-export function decompressJson(compressed: string): any {
+export function decompressJson(compressed: string) {
   const decompressedString = decompressFromEncodedURIComponent(compressed);
 
   return JSON.parse(decompressedString ?? '');
@@ -71,7 +73,7 @@ export function crushJson(json: Record<string, unknown>): string {
   return JSONCrush(jsonString);
 }
 
-export function unCrushJson(compressed: string): any {
+export function unCrushJson(compressed: string) {
   const decompressedString = JSONUncrush(compressed);
 
   return JSON.parse(decompressedString ?? '');
