@@ -43,7 +43,8 @@
     "preview": "vite preview",
     "commitlint": "commitlint --edit",
     "commit": "git add --all && cz && git push",
-    "depcheck:remove": "pnpm dlx depcheck --skip-missing"
+    "depcheck:remove": "pnpm dlx depcheck --skip-missing",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -125,6 +126,7 @@
     "eslint-plugin-unicorn": "^50.0.1",
     "eslint-plugin-unused-imports": "^4.0.0",
     "fs-extra": "^11.2.0",
+    "gh-pages": "^6.1.1",
     "husky": "^9.0.7",
     "jsdom": "^24.0.0",
     "lint-prepush": "^2.2.2",
