@@ -34,11 +34,11 @@ export const useUpdateOptions = () => {
   };
 
   useEffect(() => {
-    const state = {
+    const state: AppState = {
       source,
       options,
       version: CURRENT_SAVED_STATE_SCHEMA_VERSION,
-    } satisfies AppState;
+    };
 
     saveStateToLocalStorage(state);
     saveStateToQueryParam(state);

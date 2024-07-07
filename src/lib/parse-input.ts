@@ -79,7 +79,7 @@ export const splitInput = (input: string = ''): FileStructure[] => {
   lines = lines.filter((line) => !onlyWhitespaceRegex.test(line)) as string[];
 
   return lines.map((line) => {
-    const matchResult: RegExpExecArray | null =
+    const matchResult: any =
       leadingWhitespaceAndBulletRegex.exec(line);
 
     if (!matchResult) {
