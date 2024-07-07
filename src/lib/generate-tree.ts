@@ -192,3 +192,101 @@ function adjustComments({
     ? `${beforeHash}${slashOrFolder}${afterHash}`
     : `${beforeHash}${afterHash}`;
 }
+
+export const reverseTree = (
+  rawTreeOrText: string,
+  charset: keyof typeof LINE_STRINGS = 'utf-8',
+): string => {
+  // Step 0: If the input is not a formatted tree, return it as is
+  if (!textIsFormattedTree(rawTreeOrText, charset)) {
+    return rawTreeOrText;
+  }
+
+  // Step 1: Parse the raw tree string into a tree structure
+  const tree = parseRawTree(rawTreeOrText, charset);
+
+  // Step 2: Convert the tree structure back to indented text format
+  const indentedText = treeToIndentedText(tree);
+
+  return indentedText;
+};
+
+const textIsFormattedTree = (
+  rawTreeOrText: string,
+  charset: keyof typeof LINE_STRINGS,
+) => {
+  // Step 0: If the input is not a formatted tree, return it as is
+  const treeLines = rawTreeOrText.split('\n');
+  const lineStrings = LINE_STRINGS[charset];
+
+  return treeLines.some((line) =>
+    [lineStrings.CHILD, lineStrings.LAST_CHILD, lineStrings.DIRECTORY].some(
+      (prefix) => line.includes(prefix),
+    ),
+  );
+};
+
+// Function to parse the raw tree string
+const parseRawTree = (rawTree: string, charset: keyof typeof LINE_STRINGS) => {
+  const lines = rawTree.split('\n');
+  const root: FileStructure = {
+    name: '.',
+    children: [],
+    indentCount: -1,
+    parent: null,
+  };
+
+  const stack: FileStructure[] = [root];
+  const lineStrings = LINE_STRINGS[charset];
+
+  const lineRegex = new RegExp(
+    `^(?:${escapeRegExp(lineStrings.DIRECTORY)}|${escapeRegExp(lineStrings.EMPTY)})*(?:${escapeRegExp(lineStrings.CHILD)}|${escapeRegExp(lineStrings.LAST_CHILD)})`,
+  );
+
+  lines.forEach((line) => {
+    const indentMatch = line.match(lineRegex);
+    const indentCount = indentMatch
+      ? indentMatch[0].length / lineStrings.CHILD.length
+      : 0;
+    const name = line.replace(lineRegex, '').trim();
+    const newNode: FileStructure = {
+      name,
+      children: [],
+      indentCount,
+      parent: null,
+    };
+
+    while (
+      stack.length &&
+      stack[stack.length - 1]!.indentCount >= indentCount
+    ) {
+      stack.pop();
+    }
+
+    const parent = stack[stack.length - 1];
+    parent!.children.push(newNode);
+    newNode.parent = parent ?? null;
+    stack.push(newNode);
+  });
+
+  return root;
+};
+
+// Function to convert the tree structure back to indented text
+const treeToIndentedText = (tree: FileStructure): string => {
+  const lines: string[] = [];
+  const traverse = (node: FileStructure, depth: number) => {
+    if (node.name !== '.' || depth > 0) {
+      lines.push(' '.repeat(node.indentCount * 2) + node.name);
+    }
+    node.children.forEach((child) => traverse(child, depth + 1));
+  };
+
+  tree.children.forEach((child) => traverse(child, 0));
+  return lines.join('\n');
+};
+
+// Utility function to escape special characters in a string for use in a regular expression
+const escapeRegExp = (string: string): string => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};

@@ -1,4 +1,4 @@
-import { generateTree } from './generate-tree';
+import { generateTree, reverseTree } from './generate-tree';
 import { mockInput } from './mock-input';
 import { parseInput } from './parse-input';
 
@@ -114,5 +114,35 @@ grandparent
          └─ child
             └─ grandchild"
     `);
+  });
+
+  it('reverses the generated tree properly', () => {
+    const input = `
+shared/
+  <package-name>/
+    example-method/
+      example-method.ts
+      example-method.test.ts
+      index.ts
+`.trim();
+
+    const tree = generateTree(parseInput(input), {
+      charset: 'utf-8',
+    });
+
+    expect(tree).toMatchInlineSnapshot(`
+      "shared/
+      └─ <package-name>/
+         └─ example-method/
+            ├─ example-method.ts
+            ├─ example-method.test.ts
+            └─ index.ts"
+    `);
+
+    const actual = reverseTree(tree);
+    expect(actual).toMatch(input);
+
+    const reversedInput = reverseTree(input);
+    expect(reversedInput).toMatch(input);
   });
 });

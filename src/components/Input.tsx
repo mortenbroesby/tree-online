@@ -3,45 +3,19 @@ import React, { useEffect, useRef } from 'react';
 import Editor from 'react-simple-code-editor';
 import styled from 'styled-components';
 
-import { LINE_STRINGS, EMPTY_KEY } from '../lib/line-strings';
-import { optionsAtom, sourceAtom } from '../store';
+import { sourceAtom } from '../store';
+import { reverseTree } from '../lib/generate-tree';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
 const Input: React.FC<InputProps> = () => {
   const [source, setSource] = useAtom(sourceAtom);
-  const [options] = useAtom(optionsAtom);
   const editorRef = useRef<HTMLDivElement>(null);
-
-  const replaceLineStringsWithSpaces = (input: string): string => {
-    let cleaned = input;
-    const targetObject = LINE_STRINGS[options.charset];
-
-    Object.values(targetObject).forEach((entries) => {
-      Object.entries(entries)
-        .filter(([key]) => key !== EMPTY_KEY)
-        .forEach(([, value]) => {
-          const trimmedValue = value.trim();
-          const spaceReplacement = ' '.repeat(trimmedValue.length);
-          const regex = new RegExp(
-            trimmedValue.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'),
-            'g',
-          );
-          cleaned = cleaned.replace(regex, spaceReplacement);
-        });
-    });
-    cleaned = cleaned
-      .replace(/📂/g, '')
-      .split('\n')
-      .map((line) => line.trimEnd())
-      .join('\n');
-    return cleaned;
-  };
 
   const handlePaste = (event: ClipboardEvent) => {
     event.preventDefault();
     const pasteText = event.clipboardData?.getData('text') || '';
-    const cleanedText = replaceLineStringsWithSpaces(pasteText);
+    const cleanedText = reverseTree(pasteText);
 
     const editorTextarea = editorRef.current?.querySelector('textarea');
     if (editorTextarea) {
@@ -49,6 +23,7 @@ const Input: React.FC<InputProps> = () => {
       const end = editorTextarea.selectionEnd;
       const currentValue = editorTextarea.value;
 
+      // Append the pasted text to the current value
       const newValue =
         currentValue.slice(0, start) + cleanedText + currentValue.slice(end);
       setSource(newValue);
