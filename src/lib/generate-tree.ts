@@ -206,9 +206,7 @@ export const reverseTree = (
   const tree = parseRawTree(rawTreeOrText, charset);
 
   // Step 2: Convert the tree structure back to indented text format
-  const indentedText = treeToIndentedText(tree);
-
-  return indentedText;
+  return treeToIndentedText(tree);
 };
 
 const textIsFormattedTree = (
@@ -229,6 +227,7 @@ const textIsFormattedTree = (
 // Function to parse the raw tree string
 const parseRawTree = (rawTree: string, charset: keyof typeof LINE_STRINGS) => {
   const lines = rawTree.split('\n');
+
   const root: FileStructure = {
     name: '.',
     children: [],
@@ -237,18 +236,17 @@ const parseRawTree = (rawTree: string, charset: keyof typeof LINE_STRINGS) => {
   };
 
   const stack: FileStructure[] = [root];
-  const lineStrings = LINE_STRINGS[charset];
+  const { DIRECTORY, EMPTY, CHILD, LAST_CHILD } = LINE_STRINGS[charset];
 
   const lineRegex = new RegExp(
-    `^(?:${escapeRegExp(lineStrings.DIRECTORY)}|${escapeRegExp(lineStrings.EMPTY)})*(?:${escapeRegExp(lineStrings.CHILD)}|${escapeRegExp(lineStrings.LAST_CHILD)})`,
+    `^(?:${escapeRegExp(DIRECTORY)}|${escapeRegExp(EMPTY)})*(?:${escapeRegExp(CHILD)}|${escapeRegExp(LAST_CHILD)})`,
   );
 
   lines.forEach((line) => {
     const indentMatch = line.match(lineRegex);
-    const indentCount = indentMatch
-      ? indentMatch[0].length / lineStrings.CHILD.length
-      : 0;
+    const indentCount = indentMatch ? indentMatch[0].length / CHILD.length : 0;
     const name = line.replace(lineRegex, '').trim();
+
     const newNode: FileStructure = {
       name,
       children: [],
@@ -264,9 +262,11 @@ const parseRawTree = (rawTree: string, charset: keyof typeof LINE_STRINGS) => {
     }
 
     const parent = stack[stack.length - 1];
-    parent!.children.push(newNode);
-    newNode.parent = parent ?? null;
-    stack.push(newNode);
+    if (parent) {
+      parent.children.push(newNode);
+      newNode.parent = parent;
+      stack.push(newNode);
+    }
   });
 
   return root;

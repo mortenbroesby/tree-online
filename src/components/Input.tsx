@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import Editor from 'react-simple-code-editor';
 import styled from 'styled-components';
 
-import { sourceAtom } from '../store';
 import { reverseTree } from '../lib/generate-tree';
+import { sourceAtom } from '../store';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
