@@ -11,23 +11,7 @@ interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 const Input: React.FC<InputProps> = () => {
   const [source, setSource] = useAtom(sourceAtom);
   const [options] = useAtom(optionsAtom);
-  console.log('>>>>>> options: ', options);
-
   const editorRef = useRef<HTMLDivElement>(null);
-
-  /**
-INPUT:
-shared
-└─ <package-name>
-   └─ example-method
-      └─ index.ts
-
-OUTPUT:
-shared
-  <package-name>
-    example-method
-      index.ts
-  */
 
   const replaceLineStringsWithSpaces = (input: string): string => {
     let cleaned = input;
