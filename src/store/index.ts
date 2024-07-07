@@ -10,7 +10,9 @@ import { getParameterByName } from '../third-party/get-parameter-by-name';
 import { JSONCrush, JSONUncrush } from '../third-party/JSONCrush';
 
 export const CURRENT_SAVED_STATE_SCHEMA_VERSION = '5';
+
 export const LS_KEY = 'SAVED_STATE';
+
 export const QUERY_KEY = 's';
 
 export interface AppState {
@@ -133,19 +135,21 @@ function compressJson(json: Record<string, unknown>): string {
 }
 
 function decompressJson(compressed: string): string {
+  if (!compressed) return '';
   const decompressedString =
     decompressFromEncodedURIComponent(compressed) ?? '';
-  return JSON.parse(decompressedString);
+  return JSON.parse(decompressedString) as string;
 }
 
 export function crushJson(json: Record<string, unknown>): string {
   const jsonString = JSON.stringify(json);
-  return JSONCrush(jsonString);
+  return JSONCrush(jsonString) as string;
 }
 
-export function unCrushJson(compressed: string): unknown {
+export function unCrushJson(compressed: string): string {
+  if (!compressed) return '';
   const decompressedString = JSONUncrush(compressed) ?? '';
-  return JSON.parse(decompressedString);
+  return JSON.parse(decompressedString) as string;
 }
 
 const getInitialSourceState = (): AppState['source'] => {

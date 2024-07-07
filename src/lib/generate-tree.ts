@@ -16,7 +16,7 @@ interface GenerateTreeOptions {
    * Which set of characters to use when
    * rendering directory lines
    */
-  charset?: Charset;
+  charset: Charset;
 
   /**
    * Whether or not to append trailing slashes
@@ -87,7 +87,7 @@ const getAsciiLine = (
   structure: FileStructure,
   options: GenerateTreeOptions,
 ): string | null => {
-  const lines: any = LINE_STRINGS[options.charset as string];
+  const lines: any = LINE_STRINGS[options.charset];
 
   // Special case for the root element
   if (!structure.parent) {

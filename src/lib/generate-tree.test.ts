@@ -5,48 +5,38 @@ import { parseInput } from './parse-input';
 describe('generateTree', () => {
   it('returns an UTF-8 representation of the provided FileStructure object', () => {
     const actual = generateTree(parseInput(mockInput));
-
-    const expected = `
-.
-├── my-app
-│   ├── src
-│   │   ├── index.html
-│   │   ├── main.ts
-│   │   └── main.scss
-│   ├── build
-│   │   ├── index.html
-│   │   ├── main.js
-│   │   └── main.css
-│   ├── .prettierrc.json
-│   └── README.md
-└── empty dir
-
-    `.trim();
-
-    expect(actual).toEqual(expected);
+    expect(actual).toMatchInlineSnapshot(`
+      "my-app
+      ├─ src
+      │  ├─ index.html
+      │  ├─ main.ts
+      │  └─ main.scss
+      ├─ build
+      │  ├─ index.html
+      │  ├─ main.js
+      │  └─ main.css
+      ├─ .prettierrc.json
+      └─ README.md
+      empty dir"
+    `);
   });
 
   it('returns an ASCII representation of the provided FileStructure object', () => {
     const actual = generateTree(parseInput(mockInput), { charset: 'ascii' });
-
-    const expected = `
-.
-|-- my-app
-|   |-- src
-|   |   |-- index.html
-|   |   |-- main.ts
-|   |   \`-- main.scss
-|   |-- build
-|   |   |-- index.html
-|   |   |-- main.js
-|   |   \`-- main.css
-|   |-- .prettierrc.json
-|   \`-- README.md
-\`-- empty dir
-
-    `.trim();
-
-    expect(actual).toEqual(expected);
+    expect(actual).toMatchInlineSnapshot(`
+      "my-app
+      |- src
+      |  |- index.html
+      |  |- main.ts
+      |  \`- main.scss
+      |- build
+      |  |- index.html
+      |  |- main.js
+      |  \`- main.css
+      |- .prettierrc.json
+      \`- README.md
+      empty dir"
+    `);
   });
 
   it('does not render lines for parent directories that have already printed all of their children', () => {
@@ -62,19 +52,14 @@ grandparent
     `;
 
     const actual = generateTree(parseInput(input));
-
-    const expected = `
-.
-└── grandparent
-    ├── parent
-    │   └── child
-    └── parent
-        └── child
-            └── grandchild
-
-        `.trim();
-
-    expect(actual).toEqual(expected);
+    expect(actual).toMatchInlineSnapshot(`
+      "grandparent
+      ├─ parent
+      │  └─ child
+      └─ parent
+         └─ child
+            └─ grandchild"
+    `);
   });
 
   it('appends a trailing slash to directories if trailingDirSlash === true', () => {
@@ -89,20 +74,19 @@ grandparent
 
     `;
 
-    const actual = generateTree(parseInput(input), { trailingDirSlash: true });
+    const actual = generateTree(parseInput(input), {
+      trailingDirSlash: true,
+      charset: 'ascii',
+    });
 
-    const expected = `
-.
-└── grandparent/
-    ├── parent/
-    │   └── child
-    └── parent//
-        └── child/
-            └── grandchild
-
-        `.trim();
-
-    expect(actual).toEqual(expected);
+    expect(actual).toMatchInlineSnapshot(`
+      "grandparent/
+      |- parent/
+      |  \`- child
+      \`- parent//
+         \`- child/
+            \`- grandchild"
+    `);
   });
 
   it('does not render the root dot if rootDot === false', () => {
@@ -117,18 +101,18 @@ grandparent
 
     `;
 
-    const actual = generateTree(parseInput(input), { rootDot: false });
+    const actual = generateTree(parseInput(input), {
+      rootDot: false,
+      charset: 'utf-8',
+    });
 
-    const expected = `
-grandparent
-├── parent
-│   └── child
-└── parent
-    └── child
-        └── grandchild
-
-        `.trim();
-
-    expect(actual).toEqual(expected);
+    expect(actual).toMatchInlineSnapshot(`
+      "grandparent
+      ├─ parent
+      │  └─ child
+      └─ parent
+         └─ child
+            └─ grandchild"
+    `);
   });
 });

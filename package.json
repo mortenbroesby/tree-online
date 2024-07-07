@@ -1,7 +1,7 @@
 {
   "name": "tree-online",
   "version": "0.1.1",
-  "buildDate": 1720312366785,
+  "buildDate": 1720375454643,
   "description": "An online tree-like utility for generating ASCII folder structure diagrams",
   "homepage": "https://mortenbroesby.github.io/tree-online",
   "keywords": [
@@ -87,8 +87,8 @@
     "@tanstack/react-query-devtools": "^5.18.0",
     "@tanstack/react-table-devtools": "^8.11.7",
     "@tanstack/router-devtools": "1.15.7",
-    "@testing-library/jest-dom": "^6.4.1",
-    "@testing-library/react": "^14.2.0",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/enzyme": "^3.10.8",
@@ -140,7 +140,8 @@
     "tsx": "^4.16.2",
     "typescript": "^5.0.4",
     "vite": "^2.6.4",
-    "vitest": "0.33.0"
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.6.0"
   },
   "config": {
     "commitizen": {
