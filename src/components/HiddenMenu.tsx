@@ -10,7 +10,7 @@ import {
   Select,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { MOBILE_FOLD } from '../constants';

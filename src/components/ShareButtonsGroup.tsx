@@ -1,9 +1,9 @@
 import { Button, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useAtom } from 'jotai';
 import React, { useCallback, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
-import { useAtom } from 'jotai';
 
 import { MOBILE_FOLD } from '../constants';
 import { getTreeAtom } from '../store';
