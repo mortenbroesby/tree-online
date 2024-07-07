@@ -1,4 +1,3 @@
-import { RecursiveArray } from 'lodash';
 import defaultsDeep from 'lodash.defaultsdeep';
 import flattenDeep from 'lodash.flattendeep';
 import last from 'lodash.last';
@@ -55,6 +54,10 @@ export const generateTree = (
   const treeOptions = defaultsDeep({}, options, defaultOptions);
 
   const asciiLine = getAsciiLine(structure, treeOptions);
+
+  interface RecursiveArray<T> extends Array<T | RecursiveArray<T>> {
+    // Recursive array type
+  }
 
   const asciiChildren = structure.children.map((child) => {
     return generateTree(child, options);
