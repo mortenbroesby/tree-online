@@ -32,7 +32,7 @@ function withClearCache<P extends object>(
 
         const metaUrl = isLocal
           ? './meta.json'
-          : process.env.REACT_APP_PUBLIC_URL + '/meta.json';
+          : packageJson.homepage + '/meta.json';
 
         try {
           const response = await fetch(metaUrl);

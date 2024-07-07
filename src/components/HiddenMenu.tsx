@@ -6,17 +6,15 @@ import {
   Group,
   Stack,
   Modal,
-  Divider,
   Select,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
 import styled from 'styled-components';
 
 import { MOBILE_FOLD } from '../constants';
 import { useUpdateOptions } from '../store/use-update-options';
 
-import TipsAndTricksModalButton from './ModalButton';
 import ShareButtonsGroup from './ShareButtonsGroup';
 
 const HiddenMenu: React.FC = () => {
@@ -78,11 +76,7 @@ const HiddenMenu: React.FC = () => {
               </Stack>
             </CheckboxGroup>
 
-            <Divider orientation="vertical" variant="dashed" />
-
             <ButtonGroup>
-              <TipsAndTricksModalButton />
-
               <FullWidthLink
                 href="https://github.com/mortenbroesby/tree-online#what-is-this"
                 target="_blank"
@@ -121,21 +115,11 @@ const FullWidthLink = styled.a`
 const MenuContainer = styled.div`
   padding: 48px 16px;
   background-color: white;
-  min-width: 200px;
+  min-width: 300px;
   border-radius: 8px;
 `;
 
 const ContentGroup = ({ children, ...parameters }) => {
-  const isLargeScreen = useMediaQuery(`(min-width: ${MOBILE_FOLD}px`);
-
-  if (isLargeScreen) {
-    return (
-      <Group align="center" spacing="xl" {...parameters}>
-        {children}
-      </Group>
-    );
-  }
-
   return (
     <Stack align="center" spacing="xl" {...parameters}>
       {children}
