@@ -32,15 +32,11 @@ shared
   const replaceLineStringsWithSpaces = (input: string): string => {
     let cleaned = input;
     const targetObject = LINE_STRINGS[options.charset];
-    console.log('>>>>>> option.format: ', options.charset);
-    console.log('>>>>>> targetObject: ', targetObject);
 
     Object.values(LINE_STRINGS[options.charset]).forEach((entries) => {
       Object.entries(entries)
         .filter(([key]) => key !== EMPTY_KEY)
         .forEach(([, value]) => {
-          console.log('>>>>>> value: ', value);
-
           const trimmedValue = value.trim();
           const spaceReplacement = ' '.repeat(trimmedValue.length);
           const regex = new RegExp(

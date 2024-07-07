@@ -53,16 +53,29 @@ Edit me to generate
 
 function getSavedStateFromLocalStorage(): AppState | undefined {
   const rawSavedState = localStorage.getItem(LS_KEY);
+  return processSavedState(rawSavedState);
+}
+
+function getSourceStateFromQueryParam(): AppState | undefined {
+  const rawSavedState = getParameterByName(QUERY_KEY);
+  return processSavedState(decompressJson(rawSavedState));
+}
+
+function processSavedState(rawSavedState: string | null): AppState | undefined {
   if (!rawSavedState) return undefined;
 
   try {
     const savedState = JSON.parse(rawSavedState) as AppState;
-    if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
+    validatePayload(savedState);
+
+    const { optionsAreValid } = validateOptions(savedState);
+    if (!optionsAreValid) {
       return {
         source: savedState.source,
         options: DEFAULT_OPTIONS,
       };
     }
+
     return savedState;
   } catch (error) {
     return undefined;
@@ -79,25 +92,6 @@ export function saveStateToLocalStorage(state: AppState): void {
   );
 }
 
-function getSourceStateFromQueryParam(): AppState | undefined {
-  const rawSavedState = getParameterByName(QUERY_KEY);
-  if (!rawSavedState) return undefined;
-
-  try {
-    const decompressedState = decompressJson(rawSavedState);
-    const savedState = decompressedState as AppState;
-    if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
-      return {
-        source: savedState.source,
-        options: DEFAULT_OPTIONS,
-      };
-    }
-    return savedState;
-  } catch (error) {
-    return undefined;
-  }
-}
-
 export function saveStateToQueryParam(state: AppState): void {
   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
   const crushedState = compressJson({
@@ -108,14 +102,40 @@ export function saveStateToQueryParam(state: AppState): void {
   window.history.replaceState(state, '', `${baseUrl}?${queryString}`);
 }
 
+function validatePayload(payload: any) {
+  if (typeof payload !== 'object') {
+    throw new Error('Payload is not an object');
+  }
+
+  if (typeof payload.source !== 'string') {
+    throw new Error('Source is not a string');
+  }
+}
+
+function validateOptions(payload: any) {
+  const options = payload.options;
+  const validCharsets: Charset[] = ['ascii', 'utf-8', 'fancy'];
+
+  const optionsAreValid =
+    typeof options === 'object' &&
+    typeof options?.charset === 'string' &&
+    validCharsets.includes(options?.charset) &&
+    typeof options?.trailingSlash === 'boolean' &&
+    typeof options?.rootDot === 'boolean' &&
+    typeof options?.useIcon === 'boolean';
+
+  return { optionsAreValid };
+}
+
 function compressJson(json: Record<string, unknown>): string {
   const jsonString = JSON.stringify(json);
   return compressToEncodedURIComponent(jsonString);
 }
 
-function decompressJson(compressed: string): unknown {
-  const decompressedString = decompressFromEncodedURIComponent(compressed);
-  return JSON.parse(decompressedString ?? '');
+function decompressJson(compressed: string): string {
+  const decompressedString =
+    decompressFromEncodedURIComponent(compressed) ?? '';
+  return JSON.parse(decompressedString);
 }
 
 export function crushJson(json: Record<string, unknown>): string {
@@ -124,8 +144,8 @@ export function crushJson(json: Record<string, unknown>): string {
 }
 
 export function unCrushJson(compressed: string): unknown {
-  const decompressedString = JSONUncrush(compressed);
-  return JSON.parse(decompressedString ?? '');
+  const decompressedString = JSONUncrush(compressed) ?? '';
+  return JSON.parse(decompressedString);
 }
 
 const getInitialSourceState = (): AppState['source'] => {
