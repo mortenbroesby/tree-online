@@ -33,7 +33,7 @@ shared
     let cleaned = input;
     const targetObject = LINE_STRINGS[options.charset];
 
-    Object.values(LINE_STRINGS[options.charset]).forEach((entries) => {
+    Object.values(targetObject).forEach((entries) => {
       Object.entries(entries)
         .filter(([key]) => key !== EMPTY_KEY)
         .forEach(([, value]) => {
