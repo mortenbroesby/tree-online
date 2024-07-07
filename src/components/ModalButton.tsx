@@ -1,7 +1,6 @@
-import React from 'react';
+import { Modal, Button, Text, Stack, Code } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Text, Stack } from '@mantine/core';
-import { Code } from '@mantine/core';
+import React from 'react';
 
 const codeForPreviousDemo = `Use a hash/pund sign (#) to add a comment after a folder.
 
@@ -24,8 +23,7 @@ export default function TipsAndTricksModalButton() {
         size="auto"
       >
         <Stack align="center">
-          <Text weight="bold">Tips and tricks</Text>
-
+          <Text>Tips and tricks</Text>
           <Code block>{codeForPreviousDemo}</Code>
         </Stack>
       </Modal>

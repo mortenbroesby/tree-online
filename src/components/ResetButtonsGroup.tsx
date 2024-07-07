@@ -1,41 +1,27 @@
-import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { AppState } from '../store';
 import { Button, Group } from '@mantine/core';
-import { clearSource, resetSource } from '../store/source/actions';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-const ResetButtonsGroup: React.FC<{
-  source: string;
-  clearSource: () => void;
-  resetSource: () => void;
-}> = props => {
+import { useSourceActions } from '../store/use-source-actions';
+
+const ResetButtonsGroup: React.FC = () => {
+  const { clearSource, resetSource } = useSourceActions();
+
   const onClearSource = useCallback(() => {
-    props.clearSource();
-  }, [props]);
+    clearSource();
+  }, [clearSource]);
 
   const onResetSource = useCallback(() => {
-    props.resetSource();
-  }, [props]);
+    resetSource();
+  }, [resetSource]);
 
   return (
     <MenuContainer>
-      <Button
-        color="blue"
-        variant="light"
-        onClick={() => onResetSource()}
-        compact
-      >
+      <Button color="blue" variant="light" onClick={onResetSource} compact>
         Use example
       </Button>
 
-      <Button
-        color="blue"
-        variant="light"
-        onClick={() => onClearSource()}
-        compact
-      >
+      <Button color="blue" variant="light" onClick={onClearSource} compact>
         Clear text
       </Button>
     </MenuContainer>
@@ -44,17 +30,4 @@ const ResetButtonsGroup: React.FC<{
 
 const MenuContainer = styled(Group)``;
 
-const mapStateToProps = (state: AppState) => ({
-  source: state.source.source,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      clearSource,
-      resetSource,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResetButtonsGroup);
+export default ResetButtonsGroup;

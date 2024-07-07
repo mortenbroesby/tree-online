@@ -1,20 +1,20 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { DeploymentStatus } from './DeploymentStatus';
-import Input from './Input';
-import HiddenMenu from './HiddenMenu';
-import Tree from './Tree';
-import ResetButtonsGroup from './ResetButtonsGroup';
 import { Group, Title } from '@mantine/core';
+import React from 'react';
 import styled from 'styled-components';
 
-import TreeLogo from './tree-logo.png';
 import { MOBILE_FOLD } from '../constants';
 
-const App = () => {
+import { DeploymentStatus } from './DeploymentStatus';
+import HiddenMenu from './HiddenMenu';
+import Input from './Input';
+import ResetButtonsGroup from './ResetButtonsGroup';
+import Tree from './Tree';
+import TreeLogo from './tree-logo.png';
+
+export const App = () => {
   return (
     <AppContainer>
-      <Container spacing="xs">
+      <Container>
         <TitleContainer>
           <Logo src={TreeLogo} alt="Tree Online" />
           <MainTitle>Tree Online</MainTitle>
@@ -188,4 +188,4 @@ const FullWidthHeightTree = styled(Tree)`
   height: 100%;
 `;
 
-export default connect()(App);
+export default App;

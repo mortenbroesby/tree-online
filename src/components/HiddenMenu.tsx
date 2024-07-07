@@ -1,11 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, FC } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { AppState, getTree } from '../store';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Burger } from '@mantine/core';
 import {
+  Burger,
   Button,
   Checkbox,
   Text,
@@ -13,58 +7,28 @@ import {
   Stack,
   Modal,
   Divider,
+  Select,
 } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import {
-  updateFancy,
-  updateUseIcon,
-  updateTrailingSlash,
-  updateRootDot,
-} from '../store/options/actions';
+
+import { MOBILE_FOLD } from '../constants';
+import { useUpdateOptions } from '../store/use-update-options';
+
 import TipsAndTricksModalButton from './ModalButton';
 import ShareButtonsGroup from './ShareButtonsGroup';
-import { MOBILE_FOLD } from '../constants';
 
-const HiddenMenu: React.FC<{
-  tree: string;
-  fancy: boolean;
-  useIcon: boolean;
-  trailingSlash: boolean;
-  rootDot: boolean;
-  updateFancy: (newValue: boolean) => void;
-  updateUseIcon: (newValue: boolean) => void;
-  updateTrailingSlash: (newValue: boolean) => void;
-  updateRootDot: (newValue: boolean) => void;
-}> = props => {
+const HiddenMenu: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const onFancyChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      props.updateFancy(event.target.checked);
-    },
-    [props.updateFancy],
-  );
-
-  const onIconChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      props.updateUseIcon(event.target.checked);
-    },
-    [props.updateUseIcon],
-  );
-
-  const onTrailingSlashChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      props.updateTrailingSlash(event.target.checked);
-    },
-    [props.updateTrailingSlash],
-  );
-
-  const onRootDotChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      props.updateRootDot(event.target.checked);
-    },
-    [props.updateRootDot],
-  );
+  const {
+    options,
+    updateFormat,
+    updateUseIcon,
+    updateTrailingSlash,
+    updateRootDot,
+  } = useUpdateOptions();
 
   return (
     <>
@@ -82,25 +46,32 @@ const HiddenMenu: React.FC<{
                 Formatting
               </Text>
               <Stack spacing="sm" align="stretch">
-                <Checkbox
-                  checked={props.fancy}
-                  onChange={onFancyChanged}
-                  label="Use fancy format"
+                <Select
+                  data={[
+                    { value: 'utf-8', label: 'utf-8' },
+                    { value: 'fancy', label: 'fancy' },
+                    { value: 'ascii', label: 'ascii' },
+                  ]}
+                  value={options.format}
+                  onChange={(event) => updateFormat(event!)}
+                  placeholder="Select format"
                 />
                 <Checkbox
-                  checked={props.rootDot}
-                  onChange={onRootDotChanged}
+                  checked={options.rootDot}
+                  onChange={(event) => updateRootDot(event.target.checked)}
                   label="Prefix root with dot"
                 />
                 <Checkbox
-                  checked={props.trailingSlash}
-                  onChange={onTrailingSlashChanged}
+                  checked={options.trailingSlash}
+                  onChange={(event) =>
+                    updateTrailingSlash(event.target.checked)
+                  }
                   label="Use trailing slash"
                 />
-                {props.trailingSlash && (
+                {options.trailingSlash && (
                   <Checkbox
-                    checked={props.useIcon}
-                    onChange={onIconChanged}
+                    checked={options.useIcon}
+                    onChange={(event) => updateUseIcon(event.target.checked)}
                     label="Use folder icons"
                   />
                 )}
@@ -154,7 +125,7 @@ const MenuContainer = styled.div`
   border-radius: 8px;
 `;
 
-const ContentGroup: FC = ({ children, ...parameters }) => {
+const ContentGroup = ({ children, ...parameters }) => {
   const isLargeScreen = useMediaQuery(`(min-width: ${MOBILE_FOLD}px`);
 
   if (isLargeScreen) {
@@ -195,23 +166,4 @@ const BurgerContainer = styled(Group)`
   }
 `;
 
-const mapStateToProps = (state: AppState) => ({
-  tree: getTree(state),
-  fancy: state.options.fancy,
-  useIcon: state.options.useIcon,
-  trailingSlash: state.options.trailingSlash,
-  rootDot: state.options.rootDot,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      updateFancy,
-      updateUseIcon,
-      updateTrailingSlash,
-      updateRootDot,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(HiddenMenu);
+export default HiddenMenu;

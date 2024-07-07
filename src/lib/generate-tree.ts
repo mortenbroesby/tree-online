@@ -2,6 +2,7 @@ import { RecursiveArray } from 'lodash';
 import defaultsDeep from 'lodash.defaultsdeep';
 import flattenDeep from 'lodash.flattendeep';
 import last from 'lodash.last';
+
 import { FileStructure } from './FileStructure';
 import { LINE_STRINGS } from './line-strings';
 
@@ -14,7 +15,7 @@ interface GenerateTreeOptions {
    * Which set of characters to use when
    * rendering directory lines
    */
-  charset?: 'ascii' | 'utf-8';
+  charset?: 'ascii' | 'utf-8' | 'fancy';
 
   /**
    * Whether or not to append trailing slashes
@@ -55,7 +56,7 @@ export const generateTree = (
 
   const asciiLine = getAsciiLine(structure, treeOptions);
 
-  const asciiChildren = structure.children.map(child => {
+  const asciiChildren = structure.children.map((child) => {
     return generateTree(child, options);
   }) as RecursiveArray<string>;
 
@@ -64,7 +65,10 @@ export const generateTree = (
 
   // Remove null entries. Should only occur for the very first node
   // when `options.rootDot === false`
-  const cleanedTree = flattenedTree.filter(line => line != null).join('\n');
+  const cleanedTree = flattenedTree
+    .filter((line: any) => line != null)
+    .join('\n');
+
   return cleanedTree;
 };
 
@@ -78,7 +82,7 @@ const getAsciiLine = (
   structure: FileStructure,
   options: GenerateTreeOptions,
 ): string | null => {
-  const lines = LINE_STRINGS[options.charset as string];
+  const lines: any = LINE_STRINGS[options.charset as string];
 
   // Special case for the root element
   if (!structure.parent) {
@@ -123,7 +127,7 @@ const getName = (
   const useIcon = options?.useIcon ?? false;
 
   // Optionally append a trailing slash
-  nameChunks = nameChunks.map(chunk => {
+  nameChunks = nameChunks.map((chunk) => {
     const withMarkdownLinks = convertHTMLLinkToMarkdown(chunk);
 
     const withCommentsAdjusted = adjustComments({

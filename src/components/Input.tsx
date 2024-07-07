@@ -1,30 +1,60 @@
-import React, { createRef, RefObject } from 'react';
-import { connect } from 'react-redux';
+import { useAtom } from 'jotai';
+import React, { useEffect, useRef } from 'react';
 import Editor from 'react-simple-code-editor';
-import { bindActionCreators, Dispatch } from 'redux';
-import { updateSource } from '../store/source/actions';
-import { SourceState } from '../store/source/types';
 import styled from 'styled-components';
 
-interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  source: string;
-  updateSource: typeof updateSource;
-}
+import { LINE_STRINGS, EMPTY_KEY } from '../lib/line-strings';
+import { sourceAtom } from '../store';
 
-export class Input extends React.Component<InputProps> {
-  editorRef: RefObject<HTMLDivElement>;
+interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
-  constructor(props: Readonly<InputProps>) {
-    super(props);
-    this.editorRef = createRef();
-  }
+const Input: React.FC<InputProps> = () => {
+  const [source, setSource] = useAtom(sourceAtom);
+  const editorRef = useRef<HTMLDivElement>(null);
 
-  componentDidMount() {
-    // Ideally, it would be possible to just call
-    // a .focus() method on the Editor instance instead:
-    // https://github.com/satya164/react-simple-code-editor/issues/25
-    if (this.editorRef.current) {
-      const editorTextarea = this.editorRef.current.querySelector('textarea');
+  const replaceLineStringsWithSpaces = (input: string): string => {
+    let cleaned = input;
+    Object.values(LINE_STRINGS).forEach((entries) => {
+      Object.entries(entries)
+        .filter(([key]) => key !== EMPTY_KEY)
+        .forEach(([, value]) => {
+          cleaned = cleaned.split(value).join('  ');
+        });
+    });
+    cleaned = cleaned
+      .replace(/📂/g, '')
+      .split('\n')
+      .map((line) => line.trimEnd())
+      .join('\n');
+    return cleaned;
+  };
+
+  const handlePaste = (event: ClipboardEvent) => {
+    event.preventDefault();
+    const pasteText = event.clipboardData?.getData('text') || '';
+    const cleanedText = replaceLineStringsWithSpaces(pasteText);
+
+    const editorTextarea = editorRef.current?.querySelector('textarea');
+    if (editorTextarea) {
+      const start = editorTextarea.selectionStart;
+      const end = editorTextarea.selectionEnd;
+      const currentValue = editorTextarea.value;
+
+      const newValue =
+        currentValue.slice(0, start) + cleanedText + currentValue.slice(end);
+      setSource(newValue);
+
+      // Move cursor to the end of the pasted text
+      editorTextarea.setSelectionRange(
+        start + cleanedText.length,
+        start + cleanedText.length,
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (editorRef.current) {
+      const editorTextarea = editorRef.current.querySelector('textarea');
       if (editorTextarea) {
         // focus the code editor
         editorTextarea.focus();
@@ -34,28 +64,37 @@ export class Input extends React.Component<InputProps> {
           editorTextarea.value.length,
           editorTextarea.value.length,
         );
+
+        // Add onPaste event listener
+        editorTextarea.addEventListener('paste', handlePaste);
+
+        // Cleanup event listener on component unmount
+        return () => {
+          editorTextarea.removeEventListener('paste', handlePaste);
+        };
       }
     }
-  }
+  }, []);
 
   /**
    * Applies no syntax highlighting.
    * Required for TypeScript compilation.
    */
-  highlight = (code: string) => <React.Fragment>{code}</React.Fragment>;
+  const highlight = (code: string) => {
+    return <React.Fragment>{code}</React.Fragment>;
+  };
 
-  render() {
-    return (
-      <Container ref={this.editorRef}>
-        <StyledEditor
-          value={this.props.source}
-          onValueChange={this.props.updateSource}
-          highlight={this.highlight}
-        />
-      </Container>
-    );
-  }
-}
+  return (
+    <Container ref={editorRef}>
+      <Editor
+        value={source}
+        onValueChange={setSource}
+        highlight={highlight}
+        padding={12}
+      />
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -93,13 +132,4 @@ const Container = styled.div`
   }
 `;
 
-const StyledEditor = styled(Editor)``;
-
-const mapStateToProps = ({ source }: { source: SourceState }) => ({
-  source: source.source,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ updateSource }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default Input;

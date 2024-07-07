@@ -1,21 +1,20 @@
-import React, { FC, useCallback, useState } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-import { AppState, getTree } from '../store';
 import { Button, Group } from '@mantine/core';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { useMediaQuery } from '@mantine/hooks';
+import React, { useCallback, useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import { useAtom } from 'jotai';
+
 import { MOBILE_FOLD } from '../constants';
+import { getTreeAtom } from '../store';
 
 const COPY = 'Copy output';
 const SHARE = 'Share URL';
 
 const BUTTON_TEXT_TIMEOUT = 1200;
 
-const ShareButtonsGroup: React.FC<{
-  tree: string;
-}> = props => {
+const ShareButtonsGroup = () => {
+  const [tree] = useAtom(getTreeAtom);
   const [copyButtonText, setCopyButtonText] = useState(COPY);
   const [shareButtonText, setShareButtonText] = useState(SHARE);
 
@@ -31,7 +30,7 @@ const ShareButtonsGroup: React.FC<{
 
   return (
     <ButtonContainer>
-      <CopyToClipboard text={props.tree} onCopy={onCopy}>
+      <CopyToClipboard text={tree} onCopy={onCopy}>
         <Button variant="gradient" gradient={{ from: 'red', to: 'orange' }}>
           {copyButtonText}
         </Button>
@@ -46,7 +45,7 @@ const ShareButtonsGroup: React.FC<{
   );
 };
 
-const ButtonContainer: FC = ({ children, ...parameters }) => {
+const ButtonContainer = ({ children, ...parameters }) => {
   const isLargeScreen = useMediaQuery(`(min-width: ${MOBILE_FOLD}px`);
 
   if (isLargeScreen) {
@@ -74,11 +73,4 @@ const MenuContainer = styled(Group)`
   padding: 20px;
 `;
 
-const mapStateToProps = (state: AppState) => ({
-  tree: getTree(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShareButtonsGroup);
+export default ShareButtonsGroup;

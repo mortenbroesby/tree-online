@@ -1,18 +1,17 @@
+import { useAtom } from 'jotai';
 import React from 'react';
-import { connect } from 'react-redux';
-import { AppState, getTree } from '../store';
 import styled from 'styled-components';
+
+import { getTreeAtom } from '../store';
 import './Tree.scss';
 
-interface TreeProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  tree: string;
-}
+interface TreeProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
-export class Tree extends React.Component<TreeProps> {
-  render() {
-    return <StyledTree>{this.props.tree}</StyledTree>;
-  }
-}
+const Tree: React.FC<TreeProps> = () => {
+  const [tree] = useAtom(getTreeAtom);
+
+  return <StyledTree>{tree}</StyledTree>;
+};
 
 const StyledTree = styled.div`
   padding: 12px;
@@ -26,8 +25,4 @@ const StyledTree = styled.div`
   font-size: 14px;
 `;
 
-const mapStateToProps = (state: AppState) => ({
-  tree: getTree(state),
-});
-
-export default connect(mapStateToProps)(Tree);
+export default Tree;
