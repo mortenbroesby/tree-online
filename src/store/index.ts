@@ -17,7 +17,7 @@ export interface AppState {
   source: string;
   version?: string;
   options: {
-    fancy: boolean;
+    format: 'fancy' | 'ascii' | 'utf-8';
     trailingSlash: boolean;
     rootDot: boolean;
     useIcon: boolean;
@@ -136,7 +136,7 @@ const getInitialOptionsState = (): AppState['options'] => {
   return (
     parameterOptionsState ??
     localStorageOptionsState ?? {
-      fancy: true,
+      format: 'utf-8',
       trailingSlash: true,
       rootDot: false,
       useIcon: false,
@@ -155,7 +155,7 @@ export const getTreeAtom = atom((get) => {
   const parsedInput = parseInput(source);
 
   const generatedTree = generateTree(parsedInput, {
-    charset: options.fancy ? 'fancy' : 'ascii',
+    charset: options.format,
     trailingDirSlash: options.trailingSlash,
     rootDot: options.rootDot,
     useIcon: options.useIcon,

@@ -14,8 +14,11 @@ export const useUpdateOptions = () => {
   const [source] = useAtom(sourceAtom);
   const [options, setOptions] = useAtom(optionsAtom);
 
-  const updateFancy = (newValue: boolean) => {
-    setOptions((prev) => ({ ...prev, fancy: newValue }));
+  const updateFormat = (newValue: string) => {
+    setOptions((prev) => ({
+      ...prev,
+      format: newValue as AppState['options']['format'],
+    }));
   };
 
   const updateUseIcon = (newValue: boolean) => {
@@ -43,7 +46,7 @@ export const useUpdateOptions = () => {
 
   return {
     options,
-    updateFancy,
+    updateFormat,
     updateUseIcon,
     updateTrailingSlash,
     updateRootDot,

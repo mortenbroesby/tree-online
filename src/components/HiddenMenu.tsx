@@ -7,6 +7,7 @@ import {
   Stack,
   Modal,
   Divider,
+  Select,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import React, { useCallback } from 'react';
@@ -20,41 +21,14 @@ import ShareButtonsGroup from './ShareButtonsGroup';
 
 const HiddenMenu: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
+
   const {
     options,
-    updateFancy,
+    updateFormat,
     updateUseIcon,
     updateTrailingSlash,
     updateRootDot,
   } = useUpdateOptions();
-
-  const onFancyChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      updateFancy(event.target.checked);
-    },
-    [updateFancy],
-  );
-
-  const onIconChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      updateUseIcon(event.target.checked);
-    },
-    [updateUseIcon],
-  );
-
-  const onTrailingSlashChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      updateTrailingSlash(event.target.checked);
-    },
-    [updateTrailingSlash],
-  );
-
-  const onRootDotChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      updateRootDot(event.target.checked);
-    },
-    [updateRootDot],
-  );
 
   return (
     <>
@@ -72,25 +46,32 @@ const HiddenMenu: React.FC = () => {
                 Formatting
               </Text>
               <Stack spacing="sm" align="stretch">
-                <Checkbox
-                  checked={options.fancy}
-                  onChange={onFancyChanged}
-                  label="Use fancy format"
+                <Select
+                  data={[
+                    { value: 'utf-8', label: 'utf-8' },
+                    { value: 'fancy', label: 'fancy' },
+                    { value: 'ascii', label: 'ascii' },
+                  ]}
+                  value={options.format}
+                  onChange={(event) => updateFormat(event!)}
+                  placeholder="Select format"
                 />
                 <Checkbox
                   checked={options.rootDot}
-                  onChange={onRootDotChanged}
+                  onChange={(event) => updateRootDot(event.target.checked)}
                   label="Prefix root with dot"
                 />
                 <Checkbox
                   checked={options.trailingSlash}
-                  onChange={onTrailingSlashChanged}
+                  onChange={(event) =>
+                    updateTrailingSlash(event.target.checked)
+                  }
                   label="Use trailing slash"
                 />
                 {options.trailingSlash && (
                   <Checkbox
                     checked={options.useIcon}
-                    onChange={onIconChanged}
+                    onChange={(event) => updateUseIcon(event.target.checked)}
                     label="Use folder icons"
                   />
                 )}

@@ -1,6 +1,7 @@
 import { Button, Group } from '@mantine/core';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+
 import { useSourceActions } from '../store/use-source-actions';
 
 const ResetButtonsGroup: React.FC = () => {

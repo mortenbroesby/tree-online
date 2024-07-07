@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import Editor from 'react-simple-code-editor';
 import styled from 'styled-components';
 
+import { LINE_STRINGS, EMPTY_KEY } from '../lib/line-strings';
 import { sourceAtom } from '../store';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
@@ -10,6 +11,46 @@ interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 const Input: React.FC<InputProps> = () => {
   const [source, setSource] = useAtom(sourceAtom);
   const editorRef = useRef<HTMLDivElement>(null);
+
+  const replaceLineStringsWithSpaces = (input: string): string => {
+    let cleaned = input;
+    Object.values(LINE_STRINGS).forEach((entries) => {
+      Object.entries(entries)
+        .filter(([key]) => key !== EMPTY_KEY)
+        .forEach(([, value]) => {
+          cleaned = cleaned.split(value).join('  ');
+        });
+    });
+    cleaned = cleaned
+      .replace(/📂/g, '')
+      .split('\n')
+      .map((line) => line.trimEnd())
+      .join('\n');
+    return cleaned;
+  };
+
+  const handlePaste = (event: ClipboardEvent) => {
+    event.preventDefault();
+    const pasteText = event.clipboardData?.getData('text') || '';
+    const cleanedText = replaceLineStringsWithSpaces(pasteText);
+
+    const editorTextarea = editorRef.current?.querySelector('textarea');
+    if (editorTextarea) {
+      const start = editorTextarea.selectionStart;
+      const end = editorTextarea.selectionEnd;
+      const currentValue = editorTextarea.value;
+
+      const newValue =
+        currentValue.slice(0, start) + cleanedText + currentValue.slice(end);
+      setSource(newValue);
+
+      // Move cursor to the end of the pasted text
+      editorTextarea.setSelectionRange(
+        start + cleanedText.length,
+        start + cleanedText.length,
+      );
+    }
+  };
 
   useEffect(() => {
     if (editorRef.current) {
@@ -23,6 +64,14 @@ const Input: React.FC<InputProps> = () => {
           editorTextarea.value.length,
           editorTextarea.value.length,
         );
+
+        // Add onPaste event listener
+        editorTextarea.addEventListener('paste', handlePaste);
+
+        // Cleanup event listener on component unmount
+        return () => {
+          editorTextarea.removeEventListener('paste', handlePaste);
+        };
       }
     }
   }, []);
