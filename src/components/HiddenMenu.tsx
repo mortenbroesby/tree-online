@@ -52,7 +52,7 @@ const HiddenMenu: React.FC = () => {
                     { value: 'fancy', label: 'fancy' },
                     { value: 'ascii', label: 'ascii' },
                   ]}
-                  value={options.format}
+                  value={options.charset}
                   onChange={(event) => updateFormat(event!)}
                   placeholder="Select format"
                 />

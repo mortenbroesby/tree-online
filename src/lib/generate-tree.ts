@@ -5,6 +5,8 @@ import last from 'lodash.last';
 import { FileStructure } from './FileStructure';
 import { LINE_STRINGS } from './line-strings';
 
+export type Charset = 'ascii' | 'utf-8' | 'fancy';
+
 /**
  * Represents all rendering options available
  * when calling `generateTree`
@@ -14,7 +16,7 @@ interface GenerateTreeOptions {
    * Which set of characters to use when
    * rendering directory lines
    */
-  charset?: 'ascii' | 'utf-8' | 'fancy';
+  charset?: Charset;
 
   /**
    * Whether or not to append trailing slashes

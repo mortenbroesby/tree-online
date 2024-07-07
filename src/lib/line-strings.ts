@@ -1,3 +1,5 @@
+import { Charset } from './generate-tree';
+
 /**
  * Represents an object that contains the
  * actual strings used to render the tree
@@ -19,7 +21,15 @@ export interface LineStringSet {
 export const EMPTY_KEY = 'EMPTY';
 
 /** Contains all strings for tree rendering */
-export const LINE_STRINGS: { [charset: string]: LineStringSet } = {
+export const LINE_STRINGS: Record<
+  Charset,
+  {
+    CHILD: string;
+    LAST_CHILD: string;
+    DIRECTORY: string;
+    [EMPTY_KEY]: string;
+  }
+> = {
   ascii: {
     CHILD: '|- ',
     LAST_CHILD: '`- ',

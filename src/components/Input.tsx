@@ -4,21 +4,50 @@ import Editor from 'react-simple-code-editor';
 import styled from 'styled-components';
 
 import { LINE_STRINGS, EMPTY_KEY } from '../lib/line-strings';
-import { sourceAtom } from '../store';
+import { optionsAtom, sourceAtom } from '../store';
 
 interface InputProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
 const Input: React.FC<InputProps> = () => {
   const [source, setSource] = useAtom(sourceAtom);
+  const [options] = useAtom(optionsAtom);
+  console.log('>>>>>> options: ', options);
+
   const editorRef = useRef<HTMLDivElement>(null);
+
+  /**
+INPUT:
+shared
+└─ <package-name>
+   └─ example-method
+      └─ index.ts
+
+OUTPUT:
+shared
+  <package-name>
+    example-method
+      index.ts
+  */
 
   const replaceLineStringsWithSpaces = (input: string): string => {
     let cleaned = input;
-    Object.values(LINE_STRINGS).forEach((entries) => {
+    const targetObject = LINE_STRINGS[options.charset];
+    console.log('>>>>>> option.format: ', options.charset);
+    console.log('>>>>>> targetObject: ', targetObject);
+
+    Object.values(LINE_STRINGS[options.charset]).forEach((entries) => {
       Object.entries(entries)
         .filter(([key]) => key !== EMPTY_KEY)
         .forEach(([, value]) => {
-          cleaned = cleaned.split(value).join('  ');
+          console.log('>>>>>> value: ', value);
+
+          const trimmedValue = value.trim();
+          const spaceReplacement = ' '.repeat(trimmedValue.length);
+          const regex = new RegExp(
+            trimmedValue.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'),
+            'g',
+          );
+          cleaned = cleaned.replace(regex, spaceReplacement);
         });
     });
     cleaned = cleaned

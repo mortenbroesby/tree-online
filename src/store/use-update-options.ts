@@ -17,7 +17,7 @@ export const useUpdateOptions = () => {
   const updateFormat = (newValue: string) => {
     setOptions((prev) => ({
       ...prev,
-      format: newValue as AppState['options']['format'],
+      charset: newValue as AppState['options']['charset'],
     }));
   };
 

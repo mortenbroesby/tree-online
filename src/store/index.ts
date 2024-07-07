@@ -4,12 +4,12 @@ import {
   decompressFromEncodedURIComponent,
 } from 'lz-string';
 
-import { generateTree } from '../lib/generate-tree';
+import { Charset, generateTree } from '../lib/generate-tree';
 import { parseInput } from '../lib/parse-input';
 import { getParameterByName } from '../third-party/get-parameter-by-name';
 import { JSONCrush, JSONUncrush } from '../third-party/JSONCrush';
 
-export const CURRENT_SAVED_STATE_SCHEMA_VERSION = '4';
+export const CURRENT_SAVED_STATE_SCHEMA_VERSION = '5';
 export const LS_KEY = 'SAVED_STATE';
 export const QUERY_KEY = 's';
 
@@ -17,12 +17,19 @@ export interface AppState {
   source: string;
   version?: string;
   options: {
-    format: 'fancy' | 'ascii' | 'utf-8';
+    charset: Charset;
     trailingSlash: boolean;
     rootDot: boolean;
     useIcon: boolean;
   };
 }
+
+export const DEFAULT_OPTIONS: AppState['options'] = {
+  charset: 'utf-8',
+  trailingSlash: true,
+  rootDot: false,
+  useIcon: false,
+};
 
 export const DEFAULT_SOURCE = `
 Edit me to generate
@@ -51,9 +58,11 @@ function getSavedStateFromLocalStorage(): AppState | undefined {
   try {
     const savedState = JSON.parse(rawSavedState) as AppState;
     if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
-      return undefined;
+      return {
+        source: savedState.source,
+        options: DEFAULT_OPTIONS,
+      };
     }
-    delete savedState.version;
     return savedState;
   } catch (error) {
     return undefined;
@@ -78,9 +87,11 @@ function getSourceStateFromQueryParam(): AppState | undefined {
     const decompressedState = decompressJson(rawSavedState);
     const savedState = decompressedState as AppState;
     if (savedState.version !== CURRENT_SAVED_STATE_SCHEMA_VERSION) {
-      return undefined;
+      return {
+        source: savedState.source,
+        options: DEFAULT_OPTIONS,
+      };
     }
-    delete savedState.version;
     return savedState;
   } catch (error) {
     return undefined;
@@ -136,7 +147,7 @@ const getInitialOptionsState = (): AppState['options'] => {
   return (
     parameterOptionsState ??
     localStorageOptionsState ?? {
-      format: 'utf-8',
+      charset: 'utf-8',
       trailingSlash: true,
       rootDot: false,
       useIcon: false,
@@ -155,7 +166,7 @@ export const getTreeAtom = atom((get) => {
   const parsedInput = parseInput(source);
 
   const generatedTree = generateTree(parsedInput, {
-    charset: options.format,
+    charset: options.charset,
     trailingDirSlash: options.trailingSlash,
     rootDot: options.rootDot,
     useIcon: options.useIcon,
