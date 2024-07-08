@@ -5,11 +5,12 @@ import {
   AppState,
   CURRENT_SAVED_STATE_SCHEMA_VERSION,
   optionsAtom,
-  saveOptionsToLocalStorage,
   saveStateToQueryParam,
+  sourceAtom,
 } from '.';
 
 export const useUpdateOptions = () => {
+  const [source] = useAtom(sourceAtom);
   const [options, setOptions] = useAtom(optionsAtom);
 
   const updateFormat = (newValue: string) => {
@@ -17,10 +18,6 @@ export const useUpdateOptions = () => {
       ...prev,
       charset: newValue as AppState['options']['charset'],
     }));
-  };
-
-  const updateUseIcon = (newValue: boolean) => {
-    setOptions((prev) => ({ ...prev, useIcon: newValue }));
   };
 
   const updateTrailingSlash = (newValue: boolean) => {
@@ -33,18 +30,17 @@ export const useUpdateOptions = () => {
 
   useEffect(() => {
     const state: AppState = {
+      source,
       options,
       version: CURRENT_SAVED_STATE_SCHEMA_VERSION,
     };
 
     saveStateToQueryParam(state);
-    saveOptionsToLocalStorage(state);
   }, [options]);
 
   return {
     options,
     updateFormat,
-    updateUseIcon,
     updateTrailingSlash,
     updateRootDot,
   };

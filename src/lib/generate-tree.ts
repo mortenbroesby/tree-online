@@ -29,11 +29,6 @@ interface GenerateTreeOptions {
    * Whether or not to render a dot as the root of the tree
    */
   rootDot?: boolean;
-
-  /**
-   * Whether or not to use a folder icon
-   */
-  useIcon?: boolean;
 }
 
 /** The default options if no options are provided */
@@ -41,7 +36,6 @@ const defaultOptions: GenerateTreeOptions = {
   charset: 'utf-8',
   trailingDirSlash: false,
   rootDot: false,
-  useIcon: false,
 };
 
 /**
@@ -129,8 +123,6 @@ const getName = (
   const shouldAddTralingSlash =
     trailingSlashEnabled && itemHasChildren && itemNeedsASlash;
 
-  const useIcon = options?.useIcon ?? false;
-
   // Optionally append a trailing slash
   nameChunks = nameChunks.map((chunk) => {
     const withMarkdownLinks = convertHTMLLinkToMarkdown(chunk);
@@ -138,7 +130,6 @@ const getName = (
     const withCommentsAdjusted = adjustComments({
       value: withMarkdownLinks,
       addSlash: shouldAddTralingSlash,
-      useIcon,
     });
 
     return withCommentsAdjusted;
@@ -166,21 +157,17 @@ function convertHTMLLinkToMarkdown(input: string): string {
 function adjustComments({
   value,
   addSlash = false,
-  useIcon = false,
 }: {
   value: string;
   addSlash: boolean;
-  useIcon: boolean;
 }): string {
   // Find the index of ' # ' in the string
   const commentIndex = value.indexOf(' # ');
 
-  const slashOrFolder = useIcon ? ' 📂' : '/';
-
   // If ' # ' is not found, return the original string,
   // potentially adding a slash at the end depending on addSlash
   if (commentIndex === -1) {
-    return addSlash ? `${value}${slashOrFolder}` : value;
+    return addSlash ? `${value}/` : value;
   }
 
   // If ' # ' is found, return a string where ' # ' is potentially
@@ -188,9 +175,7 @@ function adjustComments({
   const beforeHash = value.substring(0, commentIndex);
   const afterHash = value.substring(commentIndex);
 
-  return addSlash
-    ? `${beforeHash}${slashOrFolder}${afterHash}`
-    : `${beforeHash}${afterHash}`;
+  return addSlash ? `${beforeHash}/${afterHash}` : `${beforeHash}${afterHash}`;
 }
 
 export const reverseTree = (

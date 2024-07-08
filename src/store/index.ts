@@ -22,7 +22,6 @@ export interface AppState {
     charset: Charset;
     trailingSlash: boolean;
     rootDot: boolean;
-    useIcon: boolean;
   };
 }
 
@@ -30,7 +29,6 @@ export const DEFAULT_OPTIONS: AppState['options'] = {
   charset: 'utf-8',
   trailingSlash: true,
   rootDot: false,
-  useIcon: false,
 };
 
 export const DEFAULT_SOURCE = `
@@ -104,19 +102,21 @@ function processSavedState(
   }
 }
 
-export function saveOptionsToLocalStorage(
-  state: Omit<AppState, 'source'>,
-): void {
+export function saveOptionsToLocalStorage(state: AppState): void {
   localStorage.setItem(
     LS_KEY,
     JSON.stringify({
-      ...state,
+      options: state.options,
       version: CURRENT_SAVED_STATE_SCHEMA_VERSION,
     }),
   );
 }
 
 export function saveStateToQueryParam(state: AppState): void {
+  if (state.source === DEFAULT_SOURCE || !state.source) {
+    return window.history.replaceState({}, '', window.location.pathname);
+  }
+
   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
   const crushedState = compressJson({
     ...state,
@@ -133,16 +133,15 @@ function validatePayload(payload: any) {
 }
 
 function validateOptions(payload: any) {
-  const options = payload.options;
   const validCharsets: Charset[] = ['ascii', 'utf-8', 'fancy'];
 
+  const options = payload.options;
   const optionsAreValid =
     typeof options === 'object' &&
     typeof options?.charset === 'string' &&
     validCharsets.includes(options?.charset) &&
     typeof options?.trailingSlash === 'boolean' &&
-    typeof options?.rootDot === 'boolean' &&
-    typeof options?.useIcon === 'boolean';
+    typeof options?.rootDot === 'boolean';
 
   return { optionsAreValid };
 }
@@ -239,7 +238,6 @@ export const getTreeAtom = atom((get) => {
     charset: options.charset,
     trailingDirSlash: options.trailingSlash,
     rootDot: options.rootDot,
-    useIcon: options.useIcon,
   });
 
   return generatedTree;

@@ -20,13 +20,8 @@ import ShareButtonsGroup from './ShareButtonsGroup';
 const HiddenMenu: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const {
-    options,
-    updateFormat,
-    updateUseIcon,
-    updateTrailingSlash,
-    updateRootDot,
-  } = useUpdateOptions();
+  const { options, updateFormat, updateTrailingSlash, updateRootDot } =
+    useUpdateOptions();
 
   return (
     <>
@@ -40,13 +35,28 @@ const HiddenMenu: React.FC = () => {
         <MenuContainer>
           <ContentGroup>
             <CheckboxGroup spacing="sm" align="center">
-              <Text weight="bold" underline>
-                Formatting
+              <Text weight="bold" size="lg" underline>
+                Options
               </Text>
               <Stack spacing="sm" align="stretch">
+                <Checkbox
+                  checked={options.trailingSlash}
+                  onChange={(event) =>
+                    updateTrailingSlash(event.target.checked)
+                  }
+                  label="Use trailing folder /"
+                />
+
+                <Checkbox
+                  checked={options.rootDot}
+                  onChange={(event) => updateRootDot(event.target.checked)}
+                  label="Prefix root with dot"
+                />
+
                 <Select
+                  label="Tree visuals"
                   data={[
-                    { value: 'utf-8', label: 'utf-8' },
+                    { value: 'utf-8', label: 'square' },
                     { value: 'fancy', label: 'fancy' },
                     { value: 'ascii', label: 'ascii' },
                   ]}
@@ -54,38 +64,23 @@ const HiddenMenu: React.FC = () => {
                   onChange={(event) => updateFormat(event!)}
                   placeholder="Select format"
                 />
-                <Checkbox
-                  checked={options.rootDot}
-                  onChange={(event) => updateRootDot(event.target.checked)}
-                  label="Prefix root with dot"
-                />
-                <Checkbox
-                  checked={options.trailingSlash}
-                  onChange={(event) =>
-                    updateTrailingSlash(event.target.checked)
-                  }
-                  label="Use trailing slash"
-                />
-                {options.trailingSlash && (
-                  <Checkbox
-                    checked={options.useIcon}
-                    onChange={(event) => updateUseIcon(event.target.checked)}
-                    label="Use folder icons"
-                  />
-                )}
               </Stack>
             </CheckboxGroup>
 
-            <ButtonGroup>
+            <ButtonGroup spacing="xs">
               <FullWidthLink
                 href="https://github.com/mortenbroesby/tree-online#what-is-this"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button color="blue" variant="outline">
-                  Read more here
+                <Button color="blue" variant="gradient">
+                  Read more here 📄
                 </Button>
               </FullWidthLink>
+
+              <Button color="blue" variant="solid" onClick={close}>
+                Close
+              </Button>
             </ButtonGroup>
           </ContentGroup>
         </MenuContainer>
@@ -113,10 +108,9 @@ const FullWidthLink = styled.a`
 `;
 
 const MenuContainer = styled.div`
-  padding: 48px 16px;
+  padding: 16px 16px;
   background-color: white;
-  min-width: 300px;
-  border-radius: 8px;
+  border-radius: 16px;
 `;
 
 const ContentGroup = ({ children, ...parameters }) => {
