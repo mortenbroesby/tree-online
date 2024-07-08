@@ -41,7 +41,7 @@ It's common to explain or discuss a file system structure on text-based sites li
 
 ## About the project
 
-[tree.nathanfriend.io](https://tree.nathanfriend.io) is written in [TypeScript](https://www.typescriptlang.org/) and [React](https://reactjs.org/).
+[tree-online](https://mortenbroesby.github.io/tree-online) is written in [TypeScript](https://www.typescriptlang.org/) and [React](https://reactjs.org/).
 
 Some other technologies this project uses:
 
