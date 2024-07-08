@@ -157,8 +157,8 @@ const getInitialSourceState = (): AppState['source'] => {
   const localStorageSourceState = getSavedStateFromLocalStorage();
 
   const initialSource =
-    localStorageSourceState?.source ??
     parameterSourceState?.source ??
+    localStorageSourceState?.source ??
     DEFAULT_SOURCE;
 
   return initialSource;
