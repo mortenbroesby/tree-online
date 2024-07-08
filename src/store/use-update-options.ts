@@ -5,13 +5,11 @@ import {
   AppState,
   CURRENT_SAVED_STATE_SCHEMA_VERSION,
   optionsAtom,
-  saveStateToLocalStorage,
+  saveOptionsToLocalStorage,
   saveStateToQueryParam,
-  sourceAtom,
 } from '.';
 
 export const useUpdateOptions = () => {
-  const [source] = useAtom(sourceAtom);
   const [options, setOptions] = useAtom(optionsAtom);
 
   const updateFormat = (newValue: string) => {
@@ -35,14 +33,13 @@ export const useUpdateOptions = () => {
 
   useEffect(() => {
     const state: AppState = {
-      source,
       options,
       version: CURRENT_SAVED_STATE_SCHEMA_VERSION,
     };
 
-    saveStateToLocalStorage(state);
     saveStateToQueryParam(state);
-  }, [source, options]);
+    saveOptionsToLocalStorage(state);
+  }, [options]);
 
   return {
     options,

@@ -7,7 +7,7 @@ import {
   DEFAULT_SOURCE,
   CURRENT_SAVED_STATE_SCHEMA_VERSION,
   AppState,
-  saveStateToLocalStorage,
+  saveOptionsToLocalStorage,
   saveStateToQueryParam,
 } from '.';
 
@@ -30,8 +30,8 @@ export const useSourceActions = () => {
       version: CURRENT_SAVED_STATE_SCHEMA_VERSION,
     };
 
-    saveStateToLocalStorage(state);
     saveStateToQueryParam(state);
+    saveOptionsToLocalStorage(state);
   }, [source, options]);
 
   return { clearSource, resetSource };

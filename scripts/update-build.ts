@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, writeFile } from 'fs';
 
 const filePath = './package.json';
 
-const packageJson = JSON.parse(readFileSync(filePath).toString());
+const packageJson: any = JSON.parse(readFileSync(filePath).toString());
 
 packageJson.buildDate = new Date().getTime();
 
@@ -14,7 +14,7 @@ const jsonData = {
 
 const jsonContent = JSON.stringify(jsonData);
 
-writeFile('./public/meta.json', jsonContent, 'utf8', function(error) {
+writeFile('./public/meta.json', jsonContent, 'utf8', function (error) {
   if (error) {
     console.log(
       'An error occured while saving build date and time to meta.json',

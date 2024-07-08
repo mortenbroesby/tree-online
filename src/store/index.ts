@@ -16,7 +16,7 @@ export const LS_KEY = 'SAVED_STATE';
 export const QUERY_KEY = 's';
 
 export interface AppState {
-  source: string;
+  source?: string;
   version?: string;
   options: {
     charset: Charset;
@@ -53,21 +53,40 @@ Edit me to generate
 
 `.trim();
 
+function getSavedStateFromQueryParam(): AppState | undefined {
+  try {
+    const rawSavedState = getParameterByName(QUERY_KEY);
+    const decompressedState = decompressJson(rawSavedState);
+    const processedSavedState = processSavedState(decompressedState, 'query');
+    return processedSavedState;
+  } catch (error) {
+    console.error('Error getting saved state from query param', error);
+    return undefined;
+  }
+}
+
 function getSavedStateFromLocalStorage(): AppState | undefined {
-  const rawSavedState = localStorage.getItem(LS_KEY);
-  return processSavedState(rawSavedState);
+  try {
+    const rawSavedState = localStorage.getItem(LS_KEY);
+    const processedSavedState = processSavedState(rawSavedState, 'local');
+    return processedSavedState;
+  } catch (error) {
+    console.error('Error getting saved state from local storage', error);
+    return undefined;
+  }
 }
 
-function getSourceStateFromQueryParam(): AppState | undefined {
-  const rawSavedState = getParameterByName(QUERY_KEY);
-  return processSavedState(decompressJson(rawSavedState));
-}
-
-function processSavedState(rawSavedState: string | null): AppState | undefined {
-  if (!rawSavedState) return undefined;
+function processSavedState(
+  rawSavedState: string | null,
+  storageType: 'query' | 'local',
+): AppState | undefined {
+  if (!rawSavedState) {
+    return undefined;
+  }
 
   try {
     const savedState = JSON.parse(rawSavedState) as AppState;
+
     validatePayload(savedState);
 
     const { optionsAreValid } = validateOptions(savedState);
@@ -80,11 +99,14 @@ function processSavedState(rawSavedState: string | null): AppState | undefined {
 
     return savedState;
   } catch (error) {
+    console.error(`Error processing saved state from ${storageType}`, error);
     return undefined;
   }
 }
 
-export function saveStateToLocalStorage(state: AppState): void {
+export function saveOptionsToLocalStorage(
+  state: Omit<AppState, 'source'>,
+): void {
   localStorage.setItem(
     LS_KEY,
     JSON.stringify({
@@ -108,10 +130,6 @@ function validatePayload(payload: any) {
   if (typeof payload !== 'object') {
     throw new Error('Payload is not an object');
   }
-
-  if (typeof payload.source !== 'string') {
-    throw new Error('Source is not a string');
-  }
 }
 
 function validateOptions(payload: any) {
@@ -130,53 +148,81 @@ function validateOptions(payload: any) {
 }
 
 function compressJson(json: Record<string, unknown>): string {
-  const jsonString = JSON.stringify(json);
-  return compressToEncodedURIComponent(jsonString);
+  try {
+    const jsonString = JSON.stringify(json);
+    return compressToEncodedURIComponent(jsonString);
+  } catch (error) {
+    console.error('Error compressing JSON', error);
+    return '';
+  }
 }
 
 function decompressJson(compressed: string): string {
-  if (!compressed) return '';
-  const decompressedString =
-    decompressFromEncodedURIComponent(compressed) ?? '';
-  return JSON.parse(decompressedString) as string;
+  try {
+    if (!compressed) return '';
+    const decompressedString =
+      decompressFromEncodedURIComponent(compressed) ?? '';
+    return decompressedString as string;
+  } catch (error) {
+    console.error('Error decompressing JSON', error);
+    return '';
+  }
 }
 
 export function crushJson(json: Record<string, unknown>): string {
-  const jsonString = JSON.stringify(json);
-  return JSONCrush(jsonString) as string;
+  try {
+    const jsonString = JSON.stringify(json);
+    return JSONCrush(jsonString) as string;
+  } catch (error) {
+    console.error('Error crushing JSON', error);
+    return '';
+  }
 }
 
 export function unCrushJson(compressed: string): string {
-  if (!compressed) return '';
-  const decompressedString = JSONUncrush(compressed) ?? '';
-  return JSON.parse(decompressedString) as string;
+  try {
+    if (!compressed) return '';
+    const decompressedString = JSONUncrush(compressed) ?? '';
+    return JSON.parse(decompressedString) as string;
+  } catch (error) {
+    console.error('Error uncrushing JSON', error);
+    return '';
+  }
 }
 
 const getInitialSourceState = (): AppState['source'] => {
-  const parameterSourceState = getSourceStateFromQueryParam();
+  const parameterSourceState = getSavedStateFromQueryParam();
   const localStorageSourceState = getSavedStateFromLocalStorage();
 
-  const initialSource =
-    parameterSourceState?.source ??
-    localStorageSourceState?.source ??
-    DEFAULT_SOURCE;
+  if (parameterSourceState?.source) {
+    console.log('Using source from query param');
+    return parameterSourceState.source;
+  }
 
-  return initialSource;
+  if (localStorageSourceState?.source) {
+    console.log('Using source from local storage');
+    return localStorageSourceState.source;
+  }
+
+  console.log('Using default fallback source');
+  return DEFAULT_SOURCE;
 };
 
 const getInitialOptionsState = (): AppState['options'] => {
-  const parameterOptionsState = getSourceStateFromQueryParam()?.options;
   const localStorageOptionsState = getSavedStateFromLocalStorage()?.options;
+  if (localStorageOptionsState) {
+    console.log('Using options from local storage');
+    return localStorageOptionsState;
+  }
 
-  return (
-    parameterOptionsState ??
-    localStorageOptionsState ?? {
-      charset: 'utf-8',
-      trailingSlash: true,
-      rootDot: false,
-      useIcon: false,
-    }
-  );
+  const parameterOptionsState = getSavedStateFromQueryParam()?.options;
+  if (parameterOptionsState) {
+    console.log('Using options from query param');
+    return parameterOptionsState;
+  }
+
+  console.log('Using default fallback options');
+  return DEFAULT_OPTIONS;
 };
 
 export const sourceAtom = atom(getInitialSourceState());

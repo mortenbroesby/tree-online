@@ -1,7 +1,7 @@
 {
   "name": "tree-online",
   "version": "0.1.1",
-  "buildDate": 1720381994174,
+  "buildDate": 1720425276100,
   "description": "An online tree-like utility for generating ASCII folder structure diagrams",
   "homepage": "https://mortenbroesby.github.io/tree-online",
   "keywords": [

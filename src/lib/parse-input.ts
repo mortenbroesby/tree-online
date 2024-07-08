@@ -27,7 +27,7 @@ const newlineSplitterRegex = /[^\r\n]+/g;
  * a nested FileStructure structure
  * @param input The plain-text input from the user
  */
-export const parseInput = (input: string): FileStructure => {
+export const parseInput = (input: string = ''): FileStructure => {
   if (typeof input !== 'string') {
     throw new TypeError(
       `Expected input to be a string, but got ${typeof input}`,
